@@ -22,18 +22,29 @@ The web client provides a user interface for interacting with the API. It provid
 - A form for creating new declarations
 - A form for editing existing declarations
 - A form for deleting declarations
-- A page for viewing a random declaration from the API.  This is the default page.  When this page is first loaded, a random declaration is pre-selected so the user does not have to click a button to view a random declaration.  As new declarations are requested with a button click, they are appended to the bottom of the page.
+- A page for viewing a random declaration from the API.  This is the default page.  When this page is first loaded, a random declaration is pre-loaded so the user does not have to click a button to view a random declaration.  As new declarations are requested with a button click, they are added above the previous declaration.
 - Only dark mode is supported.  In dark mode, the background is dark and the font color is light.
 - Pages that look good on either a desktop or mobile device.
 
-
 ## Storage
 
-Each declaration is a text-based description of who the Bible says I am or what I have been given in Christ. Each line of the file is a declaration.  It is stored in a flat file and can be edited.  The file is sorted by a bible reference that occurs at the end of each line, where books are sorted in the order of their appearance in the Bible.  The file needs to stay sorted by bible reference.  The code is written to read and write the file in the same format as the current declarations.txt file.
+Each declaration is a text-based description of who the Bible says a believer is or what they have been given in Christ.  Eacy declaration is a line in a flat file, and each declaration can be edited or deleted.  The file should be sorted by a reference that occurs at the end of each line.  Books of the Bible are sorted in the order of their appearance in the Bible.  Name references must be sorted to the end of the file. The code is written to read and write the file in the same format as the current declarations.txt file.
 
-The current declarations file has very little formatting.  If the line starts with a word surrounded by colons, then whatever is inside the colons is a label. After a label is found, there may be additional labels separated by colons. Labels are optional.  If the line does not start with a colon, there are no labels.  The rest of the line is the declaration with a bible reference at the end.  The bible reference at the end of the line is denoted by a space, then a dash and a book of the bible with a chapter and verse separated by a colon. i.e. ` - Gal 4:7`.
+The declarations file has very little formatting.  It is formatted as follows:  
+- **Line:** Each line is a declaration.  
+- **Comment:** If the line starts with a hash, then the rest of the line is a comment and is not processed except when sorting.  
+- **Labels:** If the line starts with a word surrounded by colons, then whatever is inside the colons is a label. After a label is found, there may be additional labels separated by colons. Labels are optional.  If the line does not start with a colon, there are no labels.  
+- **Declaration:** The rest of the line is the declaration with a bible reference at the end.  Declarations can end with a period `.`, an exclamation point `!`, a ending square bracket `]`, an ending parenthesis `)`, or none of those.
+- **Reference:** The reference at the end of the line is denoted by a space-dash-space ` - ` followed by one or more bible verses or else a person's name with at most two words. See these verse reference examples:
+  - `Gal 4:7` - single verse reference
+  - `Gal 4:7,8` - single reference with multiple verses
+  - `1 John 5:14-15` - single reference with multiple verses
+  - `Gal 4:7,8; 1 John 5:14-15` - multiple references
+  - `Psalms 18:23 & 33:11` - multiple references
+  - `1 Peter 2:9, Eph 2:6` - multiple references
+  - `2 Cor 5:7 and Heb 11:1` - multiple references
 
-File Example:
+### Declarations file example:
 
 ```
 I am blessed in everything I undertake - Deut 28:8
@@ -43,7 +54,7 @@ I am blessed in everything I undertake - Deut 28:8
 
 The curent list of declarations is in the file declarations.txt in the root directory of the project.
 
-## The code
+## The source code
 
 - The UI code is placed in it's own Golang file called ui.go.
 - The API code is placed in it's own Golang file called api.go.

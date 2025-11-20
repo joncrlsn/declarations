@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -63,6 +64,15 @@ func setupRoutes(api *DeclarationsAPI) {
 func main() {
 	// Initialize the API
 	api := NewDeclarationsAPI("declarations.txt")
+
+	// If SORT_ONLY=1, just resort and rewrite declarations.txt, then exit
+	if os.Getenv("SORT_ONLY") == "1" {
+		if err := api.SortAndSaveWithComments(); err != nil {
+			log.Fatalf("failed to sort and save declarations: %v", err)
+		}
+		log.Println("Sorted declarations.txt and exiting (SORT_ONLY=1).")
+		return
+	}
 
 	// Setup routes
 	setupRoutes(api)

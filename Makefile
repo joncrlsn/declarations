@@ -9,8 +9,7 @@ docker-build:
 	echo "GAR_IMAGE=$(GAR_IMAGE)"
 	@docker build -t $(GAR_IMAGE) .
 
-# docker-push: docker-build
-docker-push: 
+docker-push: docker-build
 	echo "GAR_IMAGE=$(GAR_IMAGE)"
 	@docker push $(GAR_IMAGE)
 

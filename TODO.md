@@ -1,11 +1,11 @@
 ## Development Tasks
-- [ ] Test that the application can parse the declarations.txt file properly
-- [ ] Create the Golang API
-- [ ] Create the web client
-- [ ] Test that the web client can connect to the Golang API
+- [x] Test that the application can parse the declarations.txt file properly
+- [x] Create the Golang API
+- [x] Create the web client
+- [x] Test that the web client can connect to the Golang API
 
 ## Google Cloud Deployment Tasks
-- [ ] Build a Dockerfile that creates a container that runs on Intel
+- [x] Build a Dockerfile that creates a container that runs on Intel
 - [ ] Add Google Cloud Storage integration to replace local file storage
 - [ ] Add environment variable support for GCS bucket name and credentials
 - [ ] Create a script to ...

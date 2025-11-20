@@ -345,7 +345,12 @@ function displayRandomDeclaration(decl) {
         '<p class="text-slate-50 text-lg mb-2">' + decl.text + '</p>' +
         '<p class="text-slate-300">— ' + decl.reference + '</p>';
     
-    elements.randomDeclarations.appendChild(div);
+    // Add new random declarations above previous ones
+    if (elements.randomDeclarations.firstChild) {
+        elements.randomDeclarations.insertBefore(div, elements.randomDeclarations.firstChild);
+    } else {
+        elements.randomDeclarations.appendChild(div);
+    }
 }
 
 function showModal(title, declaration = null) {

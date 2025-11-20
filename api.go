@@ -72,15 +72,38 @@ func NewDeclarationsAPI(filename string) *DeclarationsAPI {
 	return api
 }
 
-// parseReference extracts book name, chapter, and verse from a Bible reference
+// parseReference extracts book name, chapter, and verse from a reference string.
+// For complex references (multiple verses/books), we sort using only the first
+// Bible reference segment so that overall ordering is stable and predictable.
 func parseReference(reference string) (book string, chapter int, verse int) {
 	// Remove leading/trailing whitespace
 	reference = strings.TrimSpace(reference)
+	if reference == "" {
+		return "", 0, 0
+	}
 
-	// Try to find the last space to separate book from chapter:verse
-	parts := strings.Fields(reference)
-	if len(parts) < 2 {
+	// Take only the first reference segment before separators like ';', 'and', '&', ', '
+	primary := reference
+	delims := []string{";", " and ", "&", ", "}
+	minIdx := len(primary)
+	for _, d := range delims {
+		if idx := strings.Index(primary, d); idx >= 0 && idx < minIdx {
+			minIdx = idx
+		}
+	}
+	if minIdx != len(primary) {
+		primary = primary[:minIdx]
+	}
+	primary = strings.TrimSpace(primary)
+	if primary == "" {
 		return reference, 0, 0
+	}
+
+	// Now parse the primary segment as "Book Chapter:Verse"
+	parts := strings.Fields(primary)
+	if len(parts) < 2 {
+		// No obvious chapter/verse portion; treat whole thing as a non-Bible "book"
+		return primary, 0, 0
 	}
 
 	// Last part should be chapter:verse
@@ -126,7 +149,8 @@ func (api *DeclarationsAPI) sortDeclarationsByReference() {
 			return verseI < verseJ
 		}
 
-		// If only one book order is found, prioritize the known one
+		// If only one book order is found, prioritize the known (Bible) one so
+		// name/non-Bible references naturally sort to the end of the file
 		if existsI && !existsJ {
 			return true
 		}
@@ -161,13 +185,13 @@ func (api *DeclarationsAPI) parseDeclaration(line string, id int) Declaration {
 		line = matches[2]
 	}
 
-	// Find the Bible reference (. - Book Chapter:Verse)
-	referenceRegex := regexp.MustCompile(`^(.*?)\s*\.\s*-\s*(.+)$`)
-	if matches := referenceRegex.FindStringSubmatch(line); matches != nil {
-		decl.Text = strings.TrimSpace(matches[1])
-		decl.Reference = strings.TrimSpace(matches[2])
+	// Split declaration and reference using the " - " delimiter from the design
+	parts := strings.SplitN(line, " - ", 2)
+	if len(parts) == 2 {
+		decl.Text = strings.TrimSpace(parts[0])
+		decl.Reference = strings.TrimSpace(parts[1])
 	} else {
-		// If no reference pattern found, treat the whole line as text
+		// If no delimiter is found, treat the whole line as text
 		decl.Text = strings.TrimSpace(line)
 	}
 
@@ -191,15 +215,75 @@ func (api *DeclarationsAPI) loadDeclarations() error {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-		if line != "" {
-			decl := api.parseDeclaration(line, api.nextID)
-			api.declarations = append(api.declarations, decl)
-			api.nextID++
+		// Skip empty lines and comment lines starting with '#'
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
 		}
+
+		decl := api.parseDeclaration(line, api.nextID)
+		api.declarations = append(api.declarations, decl)
+		api.nextID++
 	}
 
 	if err := scanner.Err(); err != nil {
 		return fmt.Errorf("error reading file: %w", err)
+	}
+
+	return nil
+}
+
+// SortAndSaveWithComments is used in the standalone sort mode. It preserves
+// comment lines (starting with '#') while re-sorting and rewriting
+// declarations based on their references.
+func (api *DeclarationsAPI) SortAndSaveWithComments() error {
+	// Read original file to capture comment lines
+	file, err := os.Open(api.filename)
+	if err != nil {
+		return fmt.Errorf("failed to open file for sorting: %w", err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	comments := make([]string, 0)
+	for scanner.Scan() {
+		line := scanner.Text()
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "#") {
+			comments = append(comments, line)
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		return fmt.Errorf("error reading file for sorting: %w", err)
+	}
+
+	// Now sort declarations and rewrite file with comments at the top
+	api.sortDeclarationsByReference()
+
+	out, err := os.Create(api.filename)
+	if err != nil {
+		return fmt.Errorf("failed to create sorted file: %w", err)
+	}
+	defer out.Close()
+
+	// Write preserved comments first, in original order
+	for _, c := range comments {
+		if _, err := fmt.Fprintln(out, c); err != nil {
+			return fmt.Errorf("failed to write comment line: %w", err)
+		}
+	}
+
+	// Then write sorted declarations in the same format as saveDeclarations
+	for _, decl := range api.declarations {
+		var line string
+		if decl.Label != "" {
+			line = fmt.Sprintf(":%s: %s - %s", decl.Label, decl.Text, decl.Reference)
+		} else {
+			line = fmt.Sprintf("%s - %s", decl.Text, decl.Reference)
+		}
+
+		if _, err := fmt.Fprintln(out, line); err != nil {
+			return fmt.Errorf("failed to write declaration line: %w", err)
+		}
 	}
 
 	return nil
@@ -219,9 +303,9 @@ func (api *DeclarationsAPI) saveDeclarations() error {
 	for _, decl := range api.declarations {
 		var line string
 		if decl.Label != "" {
-			line = fmt.Sprintf(":%s: %s . - %s", decl.Label, decl.Text, decl.Reference)
+			line = fmt.Sprintf(":%s: %s - %s", decl.Label, decl.Text, decl.Reference)
 		} else {
-			line = fmt.Sprintf("%s . - %s", decl.Text, decl.Reference)
+			line = fmt.Sprintf("%s - %s", decl.Text, decl.Reference)
 		}
 
 		if _, err := fmt.Fprintln(file, line); err != nil {
