@@ -23,7 +23,7 @@ The web client provides a user interface for interacting with the API. It provid
 - A form for editing existing declarations
 - A form for deleting declarations
 - A page for viewing a random declaration from the API.  This is the default page.  When this page is first loaded, a random declaration is pre-loaded so the user does not have to click a button to view a random declaration.  As new declarations are requested with a button click, they are added above the previous declaration.
-- Only dark mode is supported.  In dark mode, the background is dark and the font color is light.
+- Only dark mode is supported.  In dark mode, the background is dark and the font color is light. When a row in the declarations list table is highlighted, the previously light text changes to dark.
 - Pages that look good on either a desktop or mobile device.
 
 ## Storage

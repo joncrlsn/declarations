@@ -42,7 +42,7 @@ const htmlTemplate = `<!DOCTYPE html>
 			<!-- Search and Add -->
 			<div class="bg-slate-900 rounded-lg shadow-sm p-4 mb-6 border border-slate-700">
 				<div class="flex flex-col md:flex-row gap-4">
-					<input type="text" id="search-input" placeholder="Search declarations..." 
+					<input type="text" id="search-input" placeholder="Search declarations..."
 						   class="flex-1 px-3 py-2 border border-slate-600 bg-slate-950 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-100 placeholder:text-slate-500">
 					<button id="add-btn" class="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600">
 						Add Declaration
@@ -95,7 +95,7 @@ const htmlTemplate = `<!DOCTYPE html>
 		<div id="random-view" class="">
 			<div class="bg-slate-900 rounded-lg shadow-sm p-6 mb-6 border border-slate-700">
 				<h2 class="text-xl font-semibold text-slate-100 mb-2">Random Declarations</h2>
-				<p class="text-slate-300 mb-4">A random declaration is shown when the page loads. Click the button to see more; each one will be added below.</p>
+				<p class="text-slate-300 mb-4">Click the button to see more.</p>
 				<button id="get-random-btn" class="px-6 py-3 bg-emerald-500 text-white rounded-md hover:bg-emerald-600">
 					Get Random Declaration
 				</button>
@@ -111,17 +111,17 @@ const htmlTemplate = `<!DOCTYPE html>
 			<form id="declaration-form">
 				<div class="mb-4">
 					<label class="block text-sm font-medium text-slate-200 mb-2">Label (optional)</label>
-					<input type="text" id="label-input" placeholder="e.g., Promise, Blessing" 
+					<input type="text" id="label-input" placeholder="e.g., Promise, Blessing"
 						   class="w-full px-3 py-2 border border-slate-600 bg-slate-950 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-100 placeholder:text-slate-500">
 				</div>
 				<div class="mb-4">
 					<label class="block text-sm font-medium text-slate-200 mb-2">Declaration Text</label>
-					<textarea id="text-input" rows="3" placeholder="Enter the declaration text..." 
+					<textarea id="text-input" rows="3" placeholder="Enter the declaration text..."
 							  class="w-full px-3 py-2 border border-slate-600 bg-slate-950 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-100 placeholder:text-slate-500" required></textarea>
 				</div>
 				<div class="mb-6">
 					<label class="block text-sm font-medium text-slate-200 mb-2">Bible Reference</label>
-					<input type="text" id="reference-input" placeholder="e.g., John 3:16" 
+					<input type="text" id="reference-input" placeholder="e.g., John 3:16"
 						   class="w-full px-3 py-2 border border-slate-600 bg-slate-950 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-100 placeholder:text-slate-500" required>
 				</div>
 				<div class="flex gap-3">
@@ -149,13 +149,13 @@ const elements = {
     statusIndicator: document.getElementById('status-indicator'),
     statusText: document.getElementById('status-text'),
     totalCount: document.getElementById('total-count'),
-    
+
     // Views
     listView: document.getElementById('list-view'),
     randomView: document.getElementById('random-view'),
     listViewBtn: document.getElementById('list-view-btn'),
     randomViewBtn: document.getElementById('random-view-btn'),
-    
+
     // List view
     searchInput: document.getElementById('search-input'),
     addBtn: document.getElementById('add-btn'),
@@ -165,11 +165,11 @@ const elements = {
     resultsCount: document.getElementById('results-count'),
     declarationsTable: document.getElementById('declarations-table'),
     emptyState: document.getElementById('empty-state'),
-    
+
     // Random view
     getRandomBtn: document.getElementById('get-random-btn'),
     randomDeclarations: document.getElementById('random-declarations'),
-    
+
     // Modal
     modal: document.getElementById('modal'),
     modalTitle: document.getElementById('modal-title'),
@@ -223,7 +223,7 @@ async function checkApiHealth() {
 async function saveDeclaration(declarationData) {
     const endpoint = editingId ? '/api/v1/declarations/' + editingId : '/api/v1/declarations';
     const method = editingId ? 'PUT' : 'POST';
-    
+
     await apiCall(endpoint, {
         method: method,
         body: JSON.stringify(declarationData)
@@ -232,7 +232,7 @@ async function saveDeclaration(declarationData) {
 
 async function deleteDeclaration(id) {
     if (!confirm('Are you sure you want to delete this declaration?')) return;
-    
+
     try {
         await apiCall('/api/v1/declarations/' + id, { method: 'DELETE' });
         await loadDeclarations();
@@ -267,7 +267,7 @@ function showError(message) {
 
 function switchView(view) {
     currentView = view;
-    
+
     if (view === 'list') {
         elements.listView.classList.remove('hidden');
         elements.randomView.classList.add('hidden');
@@ -293,7 +293,7 @@ function filterDeclarations() {
 
 function renderDeclarations() {
     const searchTerm = elements.searchInput.value;
-    
+
     // Update results count
     if (searchTerm) {
         elements.resultsCount.textContent = 'Showing ' + filteredDeclarations.length + ' results for "' + searchTerm + '"';
@@ -301,28 +301,30 @@ function renderDeclarations() {
     } else {
         elements.resultsCount.classList.add('hidden');
     }
-    
+
     // Show empty state if no results
     if (filteredDeclarations.length === 0) {
         elements.declarationsTable.innerHTML = '';
         elements.emptyState.classList.remove('hidden');
         return;
     }
-    
+
     elements.emptyState.classList.add('hidden');
-    
+
     // Render table rows - compact format, no ID shown
     elements.declarationsTable.innerHTML = filteredDeclarations.map(decl => {
-        const labelHtml = decl.label ? 
-            '<span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2">' + 
+        const labelHtml = decl.label ?
+            '<span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2">' +
             highlightText(decl.label, searchTerm) + '</span>' : '';
-        
-        return '<tr class="hover:bg-gray-50">' +
-            '<td class="px-4 py-3">' + labelHtml + highlightText(decl.text, searchTerm) + '</td>' +
-            '<td class="px-4 py-3 text-sm text-gray-600">' + highlightText(decl.reference, searchTerm) + '</td>' +
-            '<td class="px-4 py-3 text-right">' +
-                '<button onclick="editDeclaration(' + decl.id + ')" class="text-blue-600 hover:text-blue-800 mr-2">Edit</button>' +
-                '<button onclick="deleteDeclaration(' + decl.id + ')" class="text-red-600 hover:text-red-800">Delete</button>' +
+
+        // In dark mode, default row is dark background with light text.
+        // When the row is highlighted (hovered), switch to light background and dark text.
+        return '<tr class="group bg-slate-950 text-slate-100 hover:bg-slate-100 hover:text-slate-900">' +
+            '<td class="px-4 py-3 group-hover:text-slate-900">' + labelHtml + highlightText(decl.text, searchTerm) + '</td>' +
+            '<td class="px-4 py-3 text-sm text-slate-300 group-hover:text-slate-900">' + highlightText(decl.reference, searchTerm) + '</td>' +
+            '<td class="px-4 py-3 text-right group-hover:text-slate-900">' +
+                '<button onclick="editDeclaration(' + decl.id + ')" class="text-blue-400 hover:text-blue-600 mr-2">Edit</button>' +
+                '<button onclick="deleteDeclaration(' + decl.id + ')" class="text-red-400 hover:text-red-600">Delete</button>' +
             '</td>' +
         '</tr>';
     }).join('');
@@ -337,14 +339,14 @@ function highlightText(text, searchTerm) {
 function displayRandomDeclaration(decl) {
     const div = document.createElement('div');
     div.className = 'bg-slate-900 rounded-lg shadow-sm p-6 border border-slate-700';
-    
-    const labelHtml = decl.label ? 
+
+    const labelHtml = decl.label ?
         '<span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded-full mb-2">' + decl.label + '</span><br>' : '';
-    
+
     div.innerHTML = labelHtml +
         '<p class="text-slate-50 text-lg mb-2">' + decl.text + '</p>' +
         '<p class="text-slate-300">— ' + decl.reference + '</p>';
-    
+
     // Add new random declarations above previous ones
     if (elements.randomDeclarations.firstChild) {
         elements.randomDeclarations.insertBefore(div, elements.randomDeclarations.firstChild);
@@ -357,7 +359,7 @@ function showModal(title, declaration = null) {
     elements.modalTitle.textContent = title;
     elements.modal.classList.remove('hidden');
     elements.modal.classList.add('flex');
-    
+
     if (declaration) {
         editingId = declaration.id;
         elements.labelInput.value = declaration.label || '';
@@ -367,7 +369,7 @@ function showModal(title, declaration = null) {
         editingId = null;
         elements.declarationForm.reset();
     }
-    
+
     elements.textInput.focus();
 }
 
@@ -389,32 +391,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // View switching
     elements.listViewBtn.addEventListener('click', () => switchView('list'));
     elements.randomViewBtn.addEventListener('click', () => switchView('random'));
-    
+
     // Search
     elements.searchInput.addEventListener('input', filterDeclarations);
-    
+
     // Add button
     elements.addBtn.addEventListener('click', () => showModal('Add Declaration'));
-    
+
     // Random declaration
     elements.getRandomBtn.addEventListener('click', getRandomDeclaration);
-    
+
     // Modal
     elements.cancelBtn.addEventListener('click', hideModal);
     elements.modal.addEventListener('click', (e) => {
         if (e.target === elements.modal) hideModal();
     });
-    
+
     // Form submission
     elements.declarationForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const declarationData = {
             label: elements.labelInput.value.trim() || null,
             text: elements.textInput.value.trim(),
             reference: elements.referenceInput.value.trim()
         };
-        
+
         try {
             await saveDeclaration(declarationData);
             hideModal();
@@ -424,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showError('Failed to save declaration: ' + error.message);
         }
     });
-    
+
     // Initialize
     loadDeclarations();
     checkApiHealth();
