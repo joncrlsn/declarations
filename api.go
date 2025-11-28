@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"sort"
@@ -15,7 +17,7 @@ import (
 	"time"
 )
 
-// Declaration represents a single declaration with its metadata
+// Declaration represents a single declaration
 type Declaration struct {
 	ID        int    `json:"id"`
 	Label     string `json:"label,omitempty"`
@@ -28,11 +30,11 @@ type Declaration struct {
 type DeclarationsAPI struct {
 	declarations []Declaration
 	nextID       int
-	mutex        sync.RWMutex
 	filename     string
+	mutex        sync.RWMutex
 }
 
-// Bible book order for sorting declarations
+// Bible book order for sorting
 var bibleBookOrder = map[string]int{
 	"Genesis": 1, "Gen": 1, "Exodus": 2, "Ex": 2, "Exod": 2, "Leviticus": 3, "Lev": 3,
 	"Numbers": 4, "Num": 4, "Deuteronomy": 5, "Deut": 5, "Joshua": 6, "Josh": 6,
@@ -62,7 +64,6 @@ func NewDeclarationsAPI(filename string) *DeclarationsAPI {
 		filename:     filename,
 	}
 
-	// Seed random number generator
 	rand.Seed(time.Now().UnixNano())
 
 	if err := api.loadDeclarations(); err != nil {
@@ -72,133 +73,33 @@ func NewDeclarationsAPI(filename string) *DeclarationsAPI {
 	return api
 }
 
-// parseReference extracts book name, chapter, and verse from a reference string.
-// For complex references (multiple verses/books), we sort using only the first
-// Bible reference segment so that overall ordering is stable and predictable.
-func parseReference(reference string) (book string, chapter int, verse int) {
-	// Remove leading/trailing whitespace
-	reference = strings.TrimSpace(reference)
-	if reference == "" {
-		return "", 0, 0
-	}
-
-	// Take only the first reference segment before separators like ';', 'and', '&', ', '
-	primary := reference
-	delims := []string{";", " and ", "&", ", "}
-	minIdx := len(primary)
-	for _, d := range delims {
-		if idx := strings.Index(primary, d); idx >= 0 && idx < minIdx {
-			minIdx = idx
-		}
-	}
-	if minIdx != len(primary) {
-		primary = primary[:minIdx]
-	}
-	primary = strings.TrimSpace(primary)
-	if primary == "" {
-		return reference, 0, 0
-	}
-
-	// Now parse the primary segment as "Book Chapter:Verse"
-	parts := strings.Fields(primary)
-	if len(parts) < 2 {
-		// No obvious chapter/verse portion; treat whole thing as a non-Bible "book"
-		return primary, 0, 0
-	}
-
-	// Last part should be chapter:verse
-	chapterVerse := parts[len(parts)-1]
-	book = strings.Join(parts[:len(parts)-1], " ")
-
-	parseChapterVerse(chapterVerse, &chapter, &verse)
-	return book, chapter, verse
-}
-
-// parseChapterVerse parses "28:8" format into chapter and verse
-func parseChapterVerse(chapterVerse string, chapter *int, verse *int) {
-	parts := strings.Split(chapterVerse, ":")
-	if len(parts) >= 2 {
-		if c, err := strconv.Atoi(parts[0]); err == nil {
-			*chapter = c
-		}
-		if v, err := strconv.Atoi(parts[1]); err == nil {
-			*verse = v
-		}
-	}
-}
-
-// sortDeclarationsByReference sorts declarations by Bible book order, then chapter, then verse
-func (api *DeclarationsAPI) sortDeclarationsByReference() {
-	sort.Slice(api.declarations, func(i, j int) bool {
-		bookI, chapterI, verseI := parseReference(api.declarations[i].Reference)
-		bookJ, chapterJ, verseJ := parseReference(api.declarations[j].Reference)
-
-		orderI, existsI := bibleBookOrder[bookI]
-		orderJ, existsJ := bibleBookOrder[bookJ]
-
-		// If book order is found for both, compare by book order
-		if existsI && existsJ {
-			if orderI != orderJ {
-				return orderI < orderJ
-			}
-			// Same book, compare by chapter
-			if chapterI != chapterJ {
-				return chapterI < chapterJ
-			}
-			// Same chapter, compare by verse
-			return verseI < verseJ
-		}
-
-		// If only one book order is found, prioritize the known (Bible) one so
-		// name/non-Bible references naturally sort to the end of the file
-		if existsI && !existsJ {
-			return true
-		}
-		if !existsI && existsJ {
-			return false
-		}
-
-		// If neither book order is found, sort alphabetically by book name
-		if bookI != bookJ {
-			return bookI < bookJ
-		}
-		// Same book, compare by chapter
-		if chapterI != chapterJ {
-			return chapterI < chapterJ
-		}
-		// Same chapter, compare by verse
-		return verseI < verseJ
-	})
-}
-
-// parseDeclaration parses a line from the declarations file
+// parseDeclaration parses a line from the file
 func (api *DeclarationsAPI) parseDeclaration(line string, id int) Declaration {
 	decl := Declaration{
 		ID:      id,
 		RawLine: line,
 	}
 
-	// Check for labels (text between colons at the start, can be multiple)
+	// Check for labels (multiple labels separated by colons)
 	labelRegex := regexp.MustCompile(`^:([^:]+(?::[^:]+)*?):\s*(.*)$`)
 	if matches := labelRegex.FindStringSubmatch(line); matches != nil {
 		decl.Label = matches[1]
 		line = matches[2]
 	}
 
-	// Split declaration and reference using the " - " delimiter from the design
+	// Split by " - " to separate text and reference
 	parts := strings.SplitN(line, " - ", 2)
 	if len(parts) == 2 {
 		decl.Text = strings.TrimSpace(parts[0])
 		decl.Reference = strings.TrimSpace(parts[1])
 	} else {
-		// If no delimiter is found, treat the whole line as text
 		decl.Text = strings.TrimSpace(line)
 	}
 
 	return decl
 }
 
-// loadDeclarations loads declarations from the file
+// loadDeclarations loads declarations from file
 func (api *DeclarationsAPI) loadDeclarations() error {
 	api.mutex.Lock()
 	defer api.mutex.Unlock()
@@ -215,7 +116,7 @@ func (api *DeclarationsAPI) loadDeclarations() error {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-		// Skip empty lines and comment lines starting with '#'
+		// Skip empty lines and comments
 		if line == "" || strings.HasPrefix(line, "#") {
 			continue
 		}
@@ -232,67 +133,88 @@ func (api *DeclarationsAPI) loadDeclarations() error {
 	return nil
 }
 
-// SortAndSaveWithComments is used in the standalone sort mode. It preserves
-// comment lines (starting with '#') while re-sorting and rewriting
-// declarations based on their references.
-func (api *DeclarationsAPI) SortAndSaveWithComments() error {
-	// Read original file to capture comment lines
-	file, err := os.Open(api.filename)
-	if err != nil {
-		return fmt.Errorf("failed to open file for sorting: %w", err)
+// parseReference extracts book, chapter, and verse for sorting
+func parseReference(reference string) (book string, chapter int, verse int) {
+	reference = strings.TrimSpace(reference)
+	if reference == "" {
+		return "", 0, 0
 	}
-	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	comments := make([]string, 0)
-	for scanner.Scan() {
-		line := scanner.Text()
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "#") {
-			comments = append(comments, line)
+	// Take first reference segment before separators
+	primary := reference
+	delims := []string{";", " and ", "&", ", "}
+	minIdx := len(primary)
+	for _, d := range delims {
+		if idx := strings.Index(primary, d); idx >= 0 && idx < minIdx {
+			minIdx = idx
 		}
 	}
-	if err := scanner.Err(); err != nil {
-		return fmt.Errorf("error reading file for sorting: %w", err)
+	if minIdx != len(primary) {
+		primary = primary[:minIdx]
+	}
+	primary = strings.TrimSpace(primary)
+
+	// Parse "Book Chapter:Verse"
+	parts := strings.Fields(primary)
+	if len(parts) < 2 {
+		return primary, 0, 0
 	}
 
-	// Now sort declarations and rewrite file with comments at the top
-	api.sortDeclarationsByReference()
+	chapterVerse := parts[len(parts)-1]
+	book = strings.Join(parts[:len(parts)-1], " ")
 
-	out, err := os.Create(api.filename)
-	if err != nil {
-		return fmt.Errorf("failed to create sorted file: %w", err)
-	}
-	defer out.Close()
-
-	// Write preserved comments first, in original order
-	for _, c := range comments {
-		if _, err := fmt.Fprintln(out, c); err != nil {
-			return fmt.Errorf("failed to write comment line: %w", err)
+	cvParts := strings.Split(chapterVerse, ":")
+	if len(cvParts) >= 2 {
+		if c, err := strconv.Atoi(cvParts[0]); err == nil {
+			chapter = c
 		}
-	}
-
-	// Then write sorted declarations in the same format as saveDeclarations
-	for _, decl := range api.declarations {
-		var line string
-		if decl.Label != "" {
-			line = fmt.Sprintf(":%s: %s - %s", decl.Label, decl.Text, decl.Reference)
-		} else {
-			line = fmt.Sprintf("%s - %s", decl.Text, decl.Reference)
-		}
-
-		if _, err := fmt.Fprintln(out, line); err != nil {
-			return fmt.Errorf("failed to write declaration line: %w", err)
+		// Handle verse ranges like "14-15"
+		versePart := strings.Split(cvParts[1], "-")[0]
+		versePart = strings.Split(versePart, ",")[0]
+		if v, err := strconv.Atoi(versePart); err == nil {
+			verse = v
 		}
 	}
 
-	return nil
+	return book, chapter, verse
 }
 
-// saveDeclarations saves declarations to the file
+// sortDeclarations sorts by Bible book order
+func (api *DeclarationsAPI) sortDeclarations() {
+	sort.Slice(api.declarations, func(i, j int) bool {
+		bookI, chapterI, verseI := parseReference(api.declarations[i].Reference)
+		bookJ, chapterJ, verseJ := parseReference(api.declarations[j].Reference)
+
+		orderI, existsI := bibleBookOrder[bookI]
+		orderJ, existsJ := bibleBookOrder[bookJ]
+
+		// Both are Bible books
+		if existsI && existsJ {
+			if orderI != orderJ {
+				return orderI < orderJ
+			}
+			if chapterI != chapterJ {
+				return chapterI < chapterJ
+			}
+			return verseI < verseJ
+		}
+
+		// Bible books come before non-Bible references
+		if existsI && !existsJ {
+			return true
+		}
+		if !existsI && existsJ {
+			return false
+		}
+
+		// Both are non-Bible, sort alphabetically
+		return bookI < bookJ
+	})
+}
+
+// saveDeclarations saves declarations to file
 func (api *DeclarationsAPI) saveDeclarations() error {
-	// Sort declarations by Bible reference before saving
-	api.sortDeclarationsByReference()
+	api.sortDeclarations()
 
 	file, err := os.Create(api.filename)
 	if err != nil {
@@ -316,6 +238,13 @@ func (api *DeclarationsAPI) saveDeclarations() error {
 	return nil
 }
 
+// SortAndSave sorts and saves declarations (for SORT_ONLY mode)
+func (api *DeclarationsAPI) SortAndSave() error {
+	api.mutex.Lock()
+	defer api.mutex.Unlock()
+	return api.saveDeclarations()
+}
+
 // findDeclarationByID finds a declaration by ID
 func (api *DeclarationsAPI) findDeclarationByID(id int) (*Declaration, int) {
 	for i, decl := range api.declarations {
@@ -330,11 +259,6 @@ func (api *DeclarationsAPI) findDeclarationByID(id int) (*Declaration, int) {
 
 // GetDeclarations handles GET /api/v1/declarations
 func (api *DeclarationsAPI) GetDeclarations(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	api.mutex.RLock()
 	defer api.mutex.RUnlock()
 
@@ -345,17 +269,10 @@ func (api *DeclarationsAPI) GetDeclarations(w http.ResponseWriter, r *http.Reque
 }
 
 // GetDeclaration handles GET /api/v1/declarations/{id}
-func (api *DeclarationsAPI) GetDeclaration(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	// Extract ID from URL path
-	path := strings.TrimPrefix(r.URL.Path, "/api/v1/declarations/")
-	id, err := strconv.Atoi(path)
+func (api *DeclarationsAPI) GetDeclaration(w http.ResponseWriter, r *http.Request, idStr string) {
+	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid declaration ID", http.StatusBadRequest)
+		http.Error(w, "Invalid ID", http.StatusBadRequest)
 		return
 	}
 
@@ -374,11 +291,6 @@ func (api *DeclarationsAPI) GetDeclaration(w http.ResponseWriter, r *http.Reques
 
 // GetRandomDeclaration handles GET /api/v1/declarations/random
 func (api *DeclarationsAPI) GetRandomDeclaration(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	api.mutex.RLock()
 	defer api.mutex.RUnlock()
 
@@ -387,21 +299,14 @@ func (api *DeclarationsAPI) GetRandomDeclaration(w http.ResponseWriter, r *http.
 		return
 	}
 
-	// Get random declaration
 	randomIndex := rand.Intn(len(api.declarations))
-	randomDecl := api.declarations[randomIndex]
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(randomDecl)
+	json.NewEncoder(w).Encode(api.declarations[randomIndex])
 }
 
 // CreateDeclaration handles POST /api/v1/declarations
 func (api *DeclarationsAPI) CreateDeclaration(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	var req struct {
 		Label     string `json:"label"`
 		Text      string `json:"text"`
@@ -428,11 +333,10 @@ func (api *DeclarationsAPI) CreateDeclaration(w http.ResponseWriter, r *http.Req
 		Reference: req.Reference,
 	}
 
-	// Create raw line for consistency
 	if newDecl.Label != "" {
-		newDecl.RawLine = fmt.Sprintf(":%s: %s . - %s", newDecl.Label, newDecl.Text, newDecl.Reference)
+		newDecl.RawLine = fmt.Sprintf(":%s: %s - %s", newDecl.Label, newDecl.Text, newDecl.Reference)
 	} else {
-		newDecl.RawLine = fmt.Sprintf("%s . - %s", newDecl.Text, newDecl.Reference)
+		newDecl.RawLine = fmt.Sprintf("%s - %s", newDecl.Text, newDecl.Reference)
 	}
 
 	api.declarations = append(api.declarations, newDecl)
@@ -449,17 +353,10 @@ func (api *DeclarationsAPI) CreateDeclaration(w http.ResponseWriter, r *http.Req
 }
 
 // UpdateDeclaration handles PUT /api/v1/declarations/{id}
-func (api *DeclarationsAPI) UpdateDeclaration(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPut {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	// Extract ID from URL path
-	path := strings.TrimPrefix(r.URL.Path, "/api/v1/declarations/")
-	id, err := strconv.Atoi(path)
+func (api *DeclarationsAPI) UpdateDeclaration(w http.ResponseWriter, r *http.Request, idStr string) {
+	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid declaration ID", http.StatusBadRequest)
+		http.Error(w, "Invalid ID", http.StatusBadRequest)
 		return
 	}
 
@@ -488,16 +385,14 @@ func (api *DeclarationsAPI) UpdateDeclaration(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	// Update the declaration
 	api.declarations[index].Label = req.Label
 	api.declarations[index].Text = req.Text
 	api.declarations[index].Reference = req.Reference
 
-	// Update raw line for consistency
 	if req.Label != "" {
-		api.declarations[index].RawLine = fmt.Sprintf(":%s: %s . - %s", req.Label, req.Text, req.Reference)
+		api.declarations[index].RawLine = fmt.Sprintf(":%s: %s - %s", req.Label, req.Text, req.Reference)
 	} else {
-		api.declarations[index].RawLine = fmt.Sprintf("%s . - %s", req.Text, req.Reference)
+		api.declarations[index].RawLine = fmt.Sprintf("%s - %s", req.Text, req.Reference)
 	}
 
 	if err := api.saveDeclarations(); err != nil {
@@ -510,17 +405,10 @@ func (api *DeclarationsAPI) UpdateDeclaration(w http.ResponseWriter, r *http.Req
 }
 
 // DeleteDeclaration handles DELETE /api/v1/declarations/{id}
-func (api *DeclarationsAPI) DeleteDeclaration(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodDelete {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	// Extract ID from URL path
-	path := strings.TrimPrefix(r.URL.Path, "/api/v1/declarations/")
-	id, err := strconv.Atoi(path)
+func (api *DeclarationsAPI) DeleteDeclaration(w http.ResponseWriter, r *http.Request, idStr string) {
+	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid declaration ID", http.StatusBadRequest)
+		http.Error(w, "Invalid ID", http.StatusBadRequest)
 		return
 	}
 
@@ -533,7 +421,6 @@ func (api *DeclarationsAPI) DeleteDeclaration(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	// Remove the declaration
 	api.declarations = append(api.declarations[:index], api.declarations[index+1:]...)
 
 	if err := api.saveDeclarations(); err != nil {
@@ -546,11 +433,6 @@ func (api *DeclarationsAPI) DeleteDeclaration(w http.ResponseWriter, r *http.Req
 
 // GetHealth handles GET /api/v1/health
 func (api *DeclarationsAPI) GetHealth(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	api.mutex.RLock()
 	defer api.mutex.RUnlock()
 
@@ -559,4 +441,50 @@ func (api *DeclarationsAPI) GetHealth(w http.ResponseWriter, r *http.Request) {
 		"status":             "healthy",
 		"declarations_count": len(api.declarations),
 	})
+}
+
+// GetBibleText handles GET /api/v1/bible/text?q={reference}
+// Proxies requests to ESV API to protect the token
+func GetBibleText(w http.ResponseWriter, r *http.Request) {
+	reference := r.URL.Query().Get("q")
+	if reference == "" {
+		http.Error(w, "Missing reference parameter 'q'", http.StatusBadRequest)
+		return
+	}
+
+	// Read API token from file
+	tokenData, err := os.ReadFile(".api-token")
+	if err != nil {
+		http.Error(w, "Failed to read API token", http.StatusInternalServerError)
+		return
+	}
+	token := strings.TrimSpace(string(tokenData))
+
+	// Make request to ESV API with properly encoded query parameter
+	esvURL := "https://api.esv.org/v3/passage/text/?q=" + url.QueryEscape(reference)
+	req, err := http.NewRequest("GET", esvURL, nil)
+	if err != nil {
+		http.Error(w, "Failed to create request", http.StatusInternalServerError)
+		return
+	}
+
+	req.Header.Set("Authorization", "Token "+token)
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		http.Error(w, "Failed to call ESV API", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		http.Error(w, "Failed to read response", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(resp.StatusCode)
+	w.Write(body)
 }
