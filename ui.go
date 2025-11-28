@@ -102,7 +102,7 @@ const htmlTemplate = `<!DOCTYPE html>
 			<div id="empty-state" class="text-center py-12 hidden">
 				<div class="text-slate-600 mb-4">
 					<svg class="mx-auto h-16 w-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 							  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
 						</path>
 					</svg>
@@ -148,8 +148,7 @@ const htmlTemplate = `<!DOCTYPE html>
 	<!-- Bible Text Modal -->
 	<div id="bible-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50">
 		<div class="bg-slate-900 rounded-lg p-6 w-full max-w-2xl mx-4 border border-slate-700 shadow-2xl max-h-[80vh] overflow-y-auto">
-			<div class="flex justify-between items-start mb-4">
-				<h3 id="bible-modal-title" class="text-xl font-semibold text-slate-100">Bible Text</h3>
+			<div class="flex justify-end mb-4">
 				<button id="bible-modal-close" class="text-slate-500 hover:text-slate-300 transition">
 					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -199,7 +198,6 @@ const elements = {
 	referenceInput: document.getElementById('reference-input'),
 	cancelBtn: document.getElementById('cancel-btn'),
 	bibleModal: document.getElementById('bible-modal'),
-	bibleModalTitle: document.getElementById('bible-modal-title'),
 	bibleModalClose: document.getElementById('bible-modal-close'),
 	bibleTextContent: document.getElementById('bible-text-content'),
 	bibleLoading: document.getElementById('bible-loading'),
@@ -252,7 +250,7 @@ async function checkApiHealth() {
 async function saveDeclaration(declarationData) {
 	const endpoint = editingId ? '/api/v1/declarations/' + editingId : '/api/v1/declarations';
 	const method = editingId ? 'PUT' : 'POST';
-	
+
 	await apiCall(endpoint, {
 		method: method,
 		body: JSON.stringify(declarationData)
@@ -261,7 +259,7 @@ async function saveDeclaration(declarationData) {
 
 async function deleteDeclaration(id) {
 	if (!confirm('Are you sure you want to delete this declaration?')) return;
-	
+
 	try {
 		await apiCall('/api/v1/declarations/' + id, { method: 'DELETE' });
 		await loadDeclarations();
@@ -285,21 +283,21 @@ async function fetchBibleText(reference) {
 		elements.bibleLoading.classList.remove('hidden');
 		elements.bibleTextContent.classList.add('hidden');
 		elements.bibleError.classList.add('hidden');
-		
+
 		const response = await fetch('/api/v1/bible/text?q=' + encodeURIComponent(reference));
 		if (!response.ok) {
 			throw new Error('Failed to fetch Bible text');
 		}
-		
+
 		const data = await response.json();
-		
+
 		let text = '';
 		if (data.passages && data.passages.length > 0) {
 			text = data.passages.join('\n\n');
 		} else {
 			text = 'No text found for this reference.';
 		}
-		
+
 		elements.bibleTextContent.textContent = text;
 		elements.bibleTextContent.classList.remove('hidden');
 		elements.bibleLoading.classList.add('hidden');
@@ -326,7 +324,7 @@ function showError(message) {
 
 function switchView(view) {
 	currentView = view;
-	
+
 	if (view === 'list') {
 		elements.listView.classList.remove('hidden');
 		elements.randomView.classList.add('hidden');
@@ -353,33 +351,33 @@ function filterDeclarations() {
 
 function renderDeclarations() {
 	const searchTerm = elements.searchInput.value;
-	
+
 	if (searchTerm) {
 		elements.resultsCount.textContent = 'Showing ' + filteredDeclarations.length + ' results for "' + searchTerm + '"';
 		elements.resultsCount.classList.remove('hidden');
 	} else {
 		elements.resultsCount.classList.add('hidden');
 	}
-	
+
 	if (filteredDeclarations.length === 0) {
 		elements.declarationsTable.innerHTML = '';
 		elements.emptyState.classList.remove('hidden');
 		return;
 	}
-	
+
 	elements.emptyState.classList.add('hidden');
-	
+
 	elements.declarationsTable.innerHTML = filteredDeclarations.map(decl => {
 		const labelHtml = decl.label ?
-			'<span class="inline-block bg-blue-500/20 text-blue-300 text-xs px-2 py-1 rounded-full mr-2">' + 
+			'<span class="inline-block bg-blue-500/20 text-blue-300 text-xs px-2 py-1 rounded-full mr-2">' +
 			escapeHtml(decl.label) + '</span>' : '';
-		
+
 		return '<tr class="hover:bg-slate-800 transition">' +
 			'<td class="px-6 py-4">' +
 				labelHtml + escapeHtml(decl.text) +
 			'</td>' +
 			'<td class="px-6 py-4 text-sm">' +
-				'<a href="#" onclick="event.preventDefault(); showBibleModal(\'' + 
+				'<a href="#" onclick="event.preventDefault(); showBibleModal(\'' +
 				escapeHtml(decl.reference).replace(/'/g, "\\'") + '\');" ' +
 				'class="text-blue-400 hover:text-blue-300 hover:underline transition">' +
 				escapeHtml(decl.reference) + '</a>' +
@@ -397,18 +395,19 @@ function renderDeclarations() {
 function displayRandomDeclaration(decl) {
 	const div = document.createElement('div');
 	div.className = 'bg-slate-900 rounded-lg shadow-lg p-6 border border-slate-700 animate-fade-in';
-	
+
 	const labelHtml = decl.label ?
-		'<span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded-full mb-2">' + 
+		'<span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded-full mb-2">' +
 		escapeHtml(decl.label) + '</span><br>' : '';
-	
-	div.innerHTML = labelHtml +
+
+	//div.innerHTML = labelHtml +
+	div.innerHTML =
 		'<p class="text-slate-100 text-lg mb-3 leading-relaxed">' + escapeHtml(decl.text) + '</p>' +
-		'<p class="text-slate-400">— <a href="#" onclick="event.preventDefault(); showBibleModal(\'' + 
+		'<p class="text-slate-400">— <a href="#" onclick="event.preventDefault(); showBibleModal(\'' +
 		escapeHtml(decl.reference).replace(/'/g, "\\'") + '\');" ' +
-		'class="text-blue-400 hover:text-blue-300 hover:underline transition">' + 
+		'class="text-blue-400 hover:text-blue-300 hover:underline transition">' +
 		escapeHtml(decl.reference) + '</a></p>';
-	
+
 	// Add new declarations above previous ones
 	if (elements.randomDeclarations.firstChild) {
 		elements.randomDeclarations.insertBefore(div, elements.randomDeclarations.firstChild);
@@ -421,7 +420,7 @@ function showModal(title, declaration = null) {
 	elements.modalTitle.textContent = title;
 	elements.modal.classList.remove('hidden');
 	elements.modal.classList.add('flex');
-	
+
 	if (declaration) {
 		editingId = declaration.id;
 		elements.labelInput.value = declaration.label || '';
@@ -431,7 +430,7 @@ function showModal(title, declaration = null) {
 		editingId = null;
 		elements.declarationForm.reset();
 	}
-	
+
 	elements.textInput.focus();
 }
 
@@ -449,7 +448,6 @@ function editDeclaration(id) {
 }
 
 function showBibleModal(reference) {
-	elements.bibleModalTitle.textContent = reference;
 	elements.bibleModal.classList.remove('hidden');
 	elements.bibleModal.classList.add('flex');
 	fetchBibleText(reference);
@@ -473,38 +471,38 @@ document.addEventListener('DOMContentLoaded', () => {
 	// View switching
 	elements.listViewBtn.addEventListener('click', () => switchView('list'));
 	elements.randomViewBtn.addEventListener('click', () => switchView('random'));
-	
+
 	// Search
 	elements.searchInput.addEventListener('input', filterDeclarations);
-	
+
 	// Add button
 	elements.addBtn.addEventListener('click', () => showModal('Add Declaration'));
-	
+
 	// Random declaration
 	elements.getRandomBtn.addEventListener('click', getRandomDeclaration);
-	
+
 	// Modal
 	elements.cancelBtn.addEventListener('click', hideModal);
 	elements.modal.addEventListener('click', (e) => {
 		if (e.target === elements.modal) hideModal();
 	});
-	
+
 	// Bible Modal
 	elements.bibleModalClose.addEventListener('click', hideBibleModal);
 	elements.bibleModal.addEventListener('click', (e) => {
 		if (e.target === elements.bibleModal) hideBibleModal();
 	});
-	
+
 	// Form submission
 	elements.declarationForm.addEventListener('submit', async (e) => {
 		e.preventDefault();
-		
+
 		const declarationData = {
 			label: elements.labelInput.value.trim() || '',
 			text: elements.textInput.value.trim(),
 			reference: elements.referenceInput.value.trim()
 		};
-		
+
 		try {
 			await saveDeclaration(declarationData);
 			hideModal();
@@ -516,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			showError('Failed to save declaration: ' + error.message);
 		}
 	});
-	
+
 	// Initialize
 	checkApiHealth();
 	switchView('random');
