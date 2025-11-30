@@ -81,10 +81,12 @@ func (api *DeclarationsAPI) parseDeclaration(line string, id int) Declaration {
 	}
 
 	// Check for labels (multiple labels separated by colons)
-	labelRegex := regexp.MustCompile(`^:([^:]+(?::[^:]+)*?):\s*(.*)$`)
+	// Format: :Label1:Label2:Label3: followed by text
+	labelRegex := regexp.MustCompile(`^:(([^:\s]+:)+)\s*(.*)$`)
 	if matches := labelRegex.FindStringSubmatch(line); matches != nil {
-		decl.Label = matches[1]
-		line = matches[2]
+		// Remove trailing colon from captured labels
+		decl.Label = strings.TrimSuffix(matches[1], ":")
+		line = matches[3]
 	}
 
 	// Split by " - " to separate text and reference
@@ -154,13 +156,21 @@ func parseReference(reference string) (book string, chapter int, verse int) {
 	}
 	primary = strings.TrimSpace(primary)
 
-	// Parse "Book Chapter:Verse"
+	// Check if this is a Bible reference (contains chapter:verse format) or a person name
 	parts := strings.Fields(primary)
 	if len(parts) < 2 {
 		return primary, 0, 0
 	}
 
-	chapterVerse := parts[len(parts)-1]
+	// Check if the last part contains a colon (indicating chapter:verse)
+	lastPart := parts[len(parts)-1]
+	if !strings.Contains(lastPart, ":") {
+		// No colon found - this is likely a person name, return full reference
+		return primary, 0, 0
+	}
+
+	// Parse "Book Chapter:Verse"
+	chapterVerse := lastPart
 	book = strings.Join(parts[:len(parts)-1], " ")
 
 	cvParts := strings.Split(chapterVerse, ":")
@@ -305,131 +315,75 @@ func (api *DeclarationsAPI) GetRandomDeclaration(w http.ResponseWriter, r *http.
 	json.NewEncoder(w).Encode(api.declarations[randomIndex])
 }
 
-// CreateDeclaration handles POST /api/v1/declarations
-func (api *DeclarationsAPI) CreateDeclaration(w http.ResponseWriter, r *http.Request) {
-	var req struct {
-		Label     string `json:"label"`
-		Text      string `json:"text"`
-		Reference string `json:"reference"`
-	}
+// GetDeclarationsByLabel handles GET /api/v1/declarations/label/{label}
+func (api *DeclarationsAPI) GetDeclarationsByLabel(w http.ResponseWriter, r *http.Request, label string) {
+	api.mutex.RLock()
+	defer api.mutex.RUnlock()
 
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-		return
-	}
-
-	if req.Text == "" || req.Reference == "" {
-		http.Error(w, "Text and reference are required", http.StatusBadRequest)
-		return
-	}
-
-	api.mutex.Lock()
-	defer api.mutex.Unlock()
-
-	newDecl := Declaration{
-		ID:        api.nextID,
-		Label:     req.Label,
-		Text:      req.Text,
-		Reference: req.Reference,
-	}
-
-	if newDecl.Label != "" {
-		newDecl.RawLine = fmt.Sprintf(":%s: %s - %s", newDecl.Label, newDecl.Text, newDecl.Reference)
-	} else {
-		newDecl.RawLine = fmt.Sprintf("%s - %s", newDecl.Text, newDecl.Reference)
-	}
-
-	api.declarations = append(api.declarations, newDecl)
-	api.nextID++
-
-	if err := api.saveDeclarations(); err != nil {
-		http.Error(w, "Failed to save declaration", http.StatusInternalServerError)
-		return
+	var filtered []Declaration
+	for _, decl := range api.declarations {
+		if decl.Label != "" {
+			// Check if the label matches (handle multiple labels separated by colons)
+			labels := strings.Split(decl.Label, ":")
+			for _, l := range labels {
+				if strings.TrimSpace(l) == label {
+					filtered = append(filtered, decl)
+					break
+				}
+			}
+		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(newDecl)
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"declarations": filtered,
+		"label":        label,
+	})
 }
 
-// UpdateDeclaration handles PUT /api/v1/declarations/{id}
-func (api *DeclarationsAPI) UpdateDeclaration(w http.ResponseWriter, r *http.Request, idStr string) {
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		http.Error(w, "Invalid ID", http.StatusBadRequest)
-		return
+// LabelCount represents a label with its declaration count
+type LabelCount struct {
+	Label string `json:"label"`
+	Count int    `json:"count"`
+}
+
+// GetLabels handles GET /api/v1/labels
+func (api *DeclarationsAPI) GetLabels(w http.ResponseWriter, r *http.Request) {
+	api.mutex.RLock()
+	defer api.mutex.RUnlock()
+
+	// Count declarations per label
+	labelCounts := make(map[string]int)
+	for _, decl := range api.declarations {
+		if decl.Label != "" {
+			labels := strings.Split(decl.Label, ":")
+			for _, l := range labels {
+				label := strings.TrimSpace(l)
+				if label != "" {
+					labelCounts[label]++
+				}
+			}
+		}
 	}
 
-	var req struct {
-		Label     string `json:"label"`
-		Text      string `json:"text"`
-		Reference string `json:"reference"`
+	// Convert to sorted slice
+	var labels []LabelCount
+	for label, count := range labelCounts {
+		labels = append(labels, LabelCount{Label: label, Count: count})
 	}
 
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-		return
-	}
-
-	if req.Text == "" || req.Reference == "" {
-		http.Error(w, "Text and reference are required", http.StatusBadRequest)
-		return
-	}
-
-	api.mutex.Lock()
-	defer api.mutex.Unlock()
-
-	decl, index := api.findDeclarationByID(id)
-	if decl == nil {
-		http.Error(w, "Declaration not found", http.StatusNotFound)
-		return
-	}
-
-	api.declarations[index].Label = req.Label
-	api.declarations[index].Text = req.Text
-	api.declarations[index].Reference = req.Reference
-
-	if req.Label != "" {
-		api.declarations[index].RawLine = fmt.Sprintf(":%s: %s - %s", req.Label, req.Text, req.Reference)
-	} else {
-		api.declarations[index].RawLine = fmt.Sprintf("%s - %s", req.Text, req.Reference)
-	}
-
-	if err := api.saveDeclarations(); err != nil {
-		http.Error(w, "Failed to save declaration", http.StatusInternalServerError)
-		return
-	}
+	// Sort alphabetically
+	sort.Slice(labels, func(i, j int) bool {
+		return labels[i].Label < labels[j].Label
+	})
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(api.declarations[index])
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"labels": labels,
+	})
 }
 
-// DeleteDeclaration handles DELETE /api/v1/declarations/{id}
-func (api *DeclarationsAPI) DeleteDeclaration(w http.ResponseWriter, r *http.Request, idStr string) {
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		http.Error(w, "Invalid ID", http.StatusBadRequest)
-		return
-	}
-
-	api.mutex.Lock()
-	defer api.mutex.Unlock()
-
-	_, index := api.findDeclarationByID(id)
-	if index == -1 {
-		http.Error(w, "Declaration not found", http.StatusNotFound)
-		return
-	}
-
-	api.declarations = append(api.declarations[:index], api.declarations[index+1:]...)
-
-	if err := api.saveDeclarations(); err != nil {
-		http.Error(w, "Failed to save declarations", http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusNoContent)
-}
+// Note: Create, Update, and Delete operations removed - API is now read-only
 
 // GetHealth handles GET /api/v1/health
 func (api *DeclarationsAPI) GetHealth(w http.ResponseWriter, r *http.Request) {
@@ -443,22 +397,35 @@ func (api *DeclarationsAPI) GetHealth(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// GetBibleText handles GET /api/v1/bible/text?q={reference}
+// getESVToken retrieves the ESV API token from environment or file
+func getESVToken() (string, error) {
+	// Check environment variable first (for Google Cloud Run)
+	if token := os.Getenv("ESV_API_TOKEN"); token != "" {
+		return strings.TrimSpace(token), nil
+	}
+
+	// Fall back to local file
+	tokenData, err := os.ReadFile(".api-token")
+	if err != nil {
+		return "", fmt.Errorf("failed to read API token: %w", err)
+	}
+	return strings.TrimSpace(string(tokenData)), nil
+}
+
+// GetBibleText handles GET /api/v1/bible-esv/{reference}
 // Proxies requests to ESV API to protect the token
-func GetBibleText(w http.ResponseWriter, r *http.Request) {
-	reference := r.URL.Query().Get("q")
+func GetBibleText(w http.ResponseWriter, r *http.Request, reference string) {
 	if reference == "" {
-		http.Error(w, "Missing reference parameter 'q'", http.StatusBadRequest)
+		http.Error(w, "Missing reference", http.StatusBadRequest)
 		return
 	}
 
-	// Read API token from file
-	tokenData, err := os.ReadFile(".api-token")
+	// Get API token
+	token, err := getESVToken()
 	if err != nil {
-		http.Error(w, "Failed to read API token", http.StatusInternalServerError)
+		http.Error(w, "Failed to get API token", http.StatusInternalServerError)
 		return
 	}
-	token := strings.TrimSpace(string(tokenData))
 
 	// Make request to ESV API with properly encoded query parameter
 	esvURL := "https://api.esv.org/v3/passage/text/?q=" + url.QueryEscape(reference)

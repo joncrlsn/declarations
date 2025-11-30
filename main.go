@@ -60,46 +60,65 @@ func handleAPIRoutes(api *DeclarationsAPI, w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	// GET /api/v1/declarations or POST /api/v1/declarations
+	// GET /api/v1/declarations (read-only)
 	if path == "/api/v1/declarations" || path == "/api/v1/declarations/" {
-		switch r.Method {
-		case http.MethodGet:
-			api.GetDeclarations(w, r)
-		case http.MethodPost:
-			api.CreateDeclaration(w, r)
-		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		}
-		return
-	}
-
-	// GET/PUT/DELETE /api/v1/declarations/{id}
-	if strings.HasPrefix(path, "/api/v1/declarations/") {
-		// Extract ID
-		idStr := strings.TrimPrefix(path, "/api/v1/declarations/")
-		if idStr != "" && idStr != "random" {
-			switch r.Method {
-			case http.MethodGet:
-				api.GetDeclaration(w, r, idStr)
-			case http.MethodPut:
-				api.UpdateDeclaration(w, r, idStr)
-			case http.MethodDelete:
-				api.DeleteDeclaration(w, r, idStr)
-			default:
-				http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-			}
-			return
-		}
-	}
-
-	// GET /api/v1/bible/text?q={reference}
-	if path == "/api/v1/bible/text" {
 		if r.Method != http.MethodGet {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		GetBibleText(w, r)
+		api.GetDeclarations(w, r)
 		return
+	}
+
+	// GET /api/v1/labels
+	if path == "/api/v1/labels" || path == "/api/v1/labels/" {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		api.GetLabels(w, r)
+		return
+	}
+
+	// GET /api/v1/declarations/label/{label}
+	if strings.HasPrefix(path, "/api/v1/declarations/label/") {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		label := strings.TrimPrefix(path, "/api/v1/declarations/label/")
+		if label != "" {
+			api.GetDeclarationsByLabel(w, r, label)
+			return
+		}
+	}
+
+	// GET /api/v1/declarations/{id}
+	if strings.HasPrefix(path, "/api/v1/declarations/") {
+		// Extract ID
+		idStr := strings.TrimPrefix(path, "/api/v1/declarations/")
+		// Skip if it's "random" or "label" - those are handled above
+		if idStr != "" && idStr != "random" && !strings.HasPrefix(idStr, "label/") {
+			if r.Method != http.MethodGet {
+				http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+				return
+			}
+			api.GetDeclaration(w, r, idStr)
+			return
+		}
+	}
+
+	// GET /api/v1/bible-esv/{reference}
+	if strings.HasPrefix(path, "/api/v1/bible-esv/") {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		reference := strings.TrimPrefix(path, "/api/v1/bible-esv/")
+		if reference != "" {
+			GetBibleText(w, r, reference)
+			return
+		}
 	}
 
 	http.Error(w, "API endpoint not found", http.StatusNotFound)

@@ -30,11 +30,14 @@ const htmlTemplate = `<!DOCTYPE html>
 		<!-- View Toggle -->
 		<div class="flex justify-center mb-6">
 			<div class="bg-slate-900 rounded-lg p-1 border border-slate-700">
-				<button id="list-view-btn" class="px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition">
-					List View
-				</button>
 				<button id="random-view-btn" class="px-6 py-2 rounded-md bg-emerald-600 text-white transition">
-					Random View
+					Random
+				</button>
+				<button id="list-view-btn" class="px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition">
+					Declarations
+				</button>
+				<button id="labels-view-btn" class="px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition">
+					Labels
 				</button>
 			</div>
 		</div>
@@ -52,15 +55,10 @@ const htmlTemplate = `<!DOCTYPE html>
 
 		<!-- List View -->
 		<div id="list-view" class="hidden">
-			<!-- Search and Add -->
+			<!-- Search -->
 			<div class="bg-slate-900 rounded-lg shadow-lg p-4 mb-6 border border-slate-700">
-				<div class="flex flex-col md:flex-row gap-4">
-					<input type="text" id="search-input" placeholder="Search declarations..."
-						   class="flex-1 px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-100">
-					<button id="add-btn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
-						Add Declaration
-					</button>
-				</div>
+				<input type="text" id="search-input" placeholder="Search declarations..."
+					   class="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-100">
 			</div>
 
 			<!-- Loading State -->
@@ -88,9 +86,6 @@ const htmlTemplate = `<!DOCTYPE html>
 							<th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
 								Reference
 							</th>
-							<th class="px-6 py-3 text-right text-xs font-medium text-slate-300 uppercase tracking-wider">
-								Actions
-							</th>
 						</tr>
 					</thead>
 					<tbody id="declarations-table" class="divide-y divide-slate-800">
@@ -108,40 +103,28 @@ const htmlTemplate = `<!DOCTYPE html>
 					</svg>
 				</div>
 				<h3 class="text-lg font-medium text-slate-300 mb-2">No declarations found</h3>
-				<p class="text-slate-500">Try adjusting your search or add a new declaration</p>
+				<p class="text-slate-500">Try adjusting your search</p>
 			</div>
 		</div>
 	</div>
 
-	<!-- Add/Edit Modal -->
-	<div id="modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50">
-		<div class="bg-slate-900 rounded-lg p-6 w-full max-w-md mx-4 border border-slate-700 shadow-2xl">
-			<h3 id="modal-title" class="text-xl font-semibold mb-6">Add Declaration</h3>
-			<form id="declaration-form">
-				<div class="mb-4">
-					<label class="block text-sm font-medium text-slate-300 mb-2">Label (optional)</label>
-					<input type="text" id="label-input" placeholder="e.g., Promise, Blessing"
-						   class="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-100">
+	<!-- Labels View -->
+		<div id="labels-view" class="hidden">
+			<div class="bg-slate-900 rounded-lg shadow-lg p-6 mb-6 border border-slate-700">
+				<h2 class="text-xl font-semibold mb-4">Labels</h2>
+				<div id="labels-loading" class="text-center py-8">
+					<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
+					<p class="mt-4 text-slate-400">Loading labels...</p>
 				</div>
-				<div class="mb-4">
-					<label class="block text-sm font-medium text-slate-300 mb-2">Declaration Text</label>
-					<textarea id="text-input" rows="3" placeholder="Enter the declaration text..." required
-							  class="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-100"></textarea>
+				<div id="labels-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 hidden"></div>
+			</div>
+			<div id="label-declarations" class="hidden">
+				<div class="flex items-center justify-between mb-4">
+					<h3 class="text-lg font-semibold text-slate-200">Declarations for <span id="selected-label-name" class="text-emerald-400"></span></h3>
+					<button id="clear-label-selection" class="text-sm text-slate-400 hover:text-slate-200 transition">Show All Labels</button>
 				</div>
-				<div class="mb-6">
-					<label class="block text-sm font-medium text-slate-300 mb-2">Bible Reference</label>
-					<input type="text" id="reference-input" placeholder="e.g., John 3:16" required
-						   class="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-100">
-				</div>
-				<div class="flex gap-3">
-					<button type="submit" class="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
-						Save
-					</button>
-					<button type="button" id="cancel-btn" class="flex-1 px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition">
-						Cancel
-					</button>
-				</div>
-			</form>
+				<div id="label-declarations-list" class="space-y-4"></div>
+			</div>
 		</div>
 	</div>
 
@@ -168,8 +151,10 @@ const htmlTemplate = `<!DOCTYPE html>
 // Global state
 let declarations = [];
 let filteredDeclarations = [];
+let labels = [];
 let currentView = 'random';
-let editingId = null;
+let selectedLabel = null;
+let selectedLabelInLabelsView = null;
 
 // DOM elements
 const elements = {
@@ -181,7 +166,6 @@ const elements = {
 	listViewBtn: document.getElementById('list-view-btn'),
 	randomViewBtn: document.getElementById('random-view-btn'),
 	searchInput: document.getElementById('search-input'),
-	addBtn: document.getElementById('add-btn'),
 	loading: document.getElementById('loading'),
 	errorMessage: document.getElementById('error-message'),
 	errorText: document.getElementById('error-text'),
@@ -190,13 +174,14 @@ const elements = {
 	emptyState: document.getElementById('empty-state'),
 	getRandomBtn: document.getElementById('get-random-btn'),
 	randomDeclarations: document.getElementById('random-declarations'),
-	modal: document.getElementById('modal'),
-	modalTitle: document.getElementById('modal-title'),
-	declarationForm: document.getElementById('declaration-form'),
-	labelInput: document.getElementById('label-input'),
-	textInput: document.getElementById('text-input'),
-	referenceInput: document.getElementById('reference-input'),
-	cancelBtn: document.getElementById('cancel-btn'),
+	labelsViewBtn: document.getElementById('labels-view-btn'),
+	labelsView: document.getElementById('labels-view'),
+	labelsLoading: document.getElementById('labels-loading'),
+	labelsList: document.getElementById('labels-list'),
+	labelDeclarations: document.getElementById('label-declarations'),
+	selectedLabelName: document.getElementById('selected-label-name'),
+	clearLabelSelection: document.getElementById('clear-label-selection'),
+	labelDeclarationsList: document.getElementById('label-declarations-list'),
 	bibleModal: document.getElementById('bible-modal'),
 	bibleModalClose: document.getElementById('bible-modal-close'),
 	bibleTextContent: document.getElementById('bible-text-content'),
@@ -247,25 +232,23 @@ async function checkApiHealth() {
 	}
 }
 
-async function saveDeclaration(declarationData) {
-	const endpoint = editingId ? '/api/v1/declarations/' + editingId : '/api/v1/declarations';
-	const method = editingId ? 'PUT' : 'POST';
-
-	await apiCall(endpoint, {
-		method: method,
-		body: JSON.stringify(declarationData)
-	});
+async function loadLabels() {
+	try {
+		const data = await apiCall('/api/v1/labels');
+		labels = data.labels || [];
+		renderLabels();
+	} catch (error) {
+		console.error('Failed to load labels:', error);
+	}
 }
 
-async function deleteDeclaration(id) {
-	if (!confirm('Are you sure you want to delete this declaration?')) return;
-
+async function loadLabelDeclarations(label) {
 	try {
-		await apiCall('/api/v1/declarations/' + id, { method: 'DELETE' });
-		await loadDeclarations();
-		await checkApiHealth();
+		const data = await apiCall('/api/v1/declarations/label/' + encodeURIComponent(label));
+		selectedLabelInLabelsView = label;
+		renderLabelDeclarations(data.declarations || []);
 	} catch (error) {
-		showError('Failed to delete declaration: ' + error.message);
+		console.error('Failed to load label declarations:', error);
 	}
 }
 
@@ -284,7 +267,7 @@ async function fetchBibleText(reference) {
 		elements.bibleTextContent.classList.add('hidden');
 		elements.bibleError.classList.add('hidden');
 
-		const response = await fetch('/api/v1/bible/text?q=' + encodeURIComponent(reference));
+		const response = await fetch('/api/v1/bible-esv/' + encodeURIComponent(reference));
 		if (!response.ok) {
 			throw new Error('Failed to fetch Bible text');
 		}
@@ -325,35 +308,69 @@ function showError(message) {
 function switchView(view) {
 	currentView = view;
 
+	// Hide all views
+	elements.listView.classList.add('hidden');
+	elements.randomView.classList.add('hidden');
+	elements.labelsView.classList.add('hidden');
+
+	// Reset all buttons
+	elements.listViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
+	elements.randomViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
+	elements.labelsViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
+
 	if (view === 'list') {
 		elements.listView.classList.remove('hidden');
-		elements.randomView.classList.add('hidden');
 		elements.listViewBtn.className = 'px-6 py-2 rounded-md bg-emerald-600 text-white transition';
-		elements.randomViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
 		loadDeclarations();
+	} else if (view === 'labels') {
+		elements.labelsView.classList.remove('hidden');
+		elements.labelsViewBtn.className = 'px-6 py-2 rounded-md bg-emerald-600 text-white transition';
+		loadLabels();
 	} else {
-		elements.listView.classList.add('hidden');
 		elements.randomView.classList.remove('hidden');
-		elements.listViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
 		elements.randomViewBtn.className = 'px-6 py-2 rounded-md bg-emerald-600 text-white transition';
 	}
 }
 
 function filterDeclarations() {
 	const searchTerm = elements.searchInput.value.toLowerCase();
-	filteredDeclarations = declarations.filter(decl =>
-		decl.text.toLowerCase().includes(searchTerm) ||
-		decl.reference.toLowerCase().includes(searchTerm) ||
-		(decl.label && decl.label.toLowerCase().includes(searchTerm))
-	);
+	let filtered = declarations;
+
+	// Filter by label if one is selected
+	if (selectedLabel) {
+		filtered = filtered.filter(decl => {
+			if (!decl.label) return false;
+			const labels = decl.label.split(':').map(l => l.trim());
+			return labels.includes(selectedLabel);
+		});
+	}
+
+	// Filter by search term
+	if (searchTerm) {
+		filtered = filtered.filter(decl =>
+			decl.text.toLowerCase().includes(searchTerm) ||
+			decl.reference.toLowerCase().includes(searchTerm) ||
+			(decl.label && decl.label.toLowerCase().includes(searchTerm))
+		);
+	}
+
+	filteredDeclarations = filtered;
 	renderDeclarations();
 }
 
 function renderDeclarations() {
 	const searchTerm = elements.searchInput.value;
 
-	if (searchTerm) {
-		elements.resultsCount.textContent = 'Showing ' + filteredDeclarations.length + ' results for "' + searchTerm + '"';
+	// Show results count if filtering
+	if (selectedLabel || searchTerm) {
+		let message = 'Showing ' + filteredDeclarations.length + ' result' + (filteredDeclarations.length !== 1 ? 's' : '');
+		if (selectedLabel) {
+			message += ' for label "' + selectedLabel + '"';
+		}
+		if (searchTerm) {
+			message += (selectedLabel ? ' and' : '') + ' search "' + searchTerm + '"';
+		}
+		elements.resultsCount.textContent = message;
 		elements.resultsCount.classList.remove('hidden');
 	} else {
 		elements.resultsCount.classList.add('hidden');
@@ -368,9 +385,19 @@ function renderDeclarations() {
 	elements.emptyState.classList.add('hidden');
 
 	elements.declarationsTable.innerHTML = filteredDeclarations.map(decl => {
-		const labelHtml = decl.label ?
-			'<span class="inline-block bg-blue-500/20 text-blue-300 text-xs px-2 py-1 rounded-full mr-2">' +
-			escapeHtml(decl.label) + '</span>' : '';
+		// Render labels as clickable badges
+		let labelHtml = '';
+		if (decl.label) {
+			const labels = decl.label.split(':').map(l => l.trim()).filter(l => l);
+			labelHtml = labels.map(label => {
+				const isSelected = selectedLabel === label;
+				const bgClass = isSelected ? 'bg-emerald-600 text-white' : 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30';
+				return '<a href="#" onclick="event.preventDefault(); toggleLabelFilter(\'' +
+					escapeHtml(label).replace(/'/g, "\\'") + '\');" ' +
+					'class="inline-block ' + bgClass + ' text-xs px-2 py-1 rounded-full mr-2 cursor-pointer transition">' +
+					escapeHtml(label) + '</a>';
+			}).join('');
+		}
 
 		return '<tr class="hover:bg-slate-800 transition">' +
 			'<td class="px-6 py-4">' +
@@ -382,13 +409,50 @@ function renderDeclarations() {
 				'class="text-blue-400 hover:text-blue-300 hover:underline transition">' +
 				escapeHtml(decl.reference) + '</a>' +
 			'</td>' +
-			'<td class="px-6 py-4 text-right space-x-2">' +
-				'<button onclick="editDeclaration(' + decl.id + ')" ' +
-				'class="text-blue-400 hover:text-blue-300 transition">Edit</button>' +
-				'<button onclick="deleteDeclaration(' + decl.id + ')" ' +
-				'class="text-red-400 hover:text-red-300 transition">Delete</button>' +
-			'</td>' +
 		'</tr>';
+	}).join('');
+}
+
+function renderLabels() {
+	elements.labelsLoading.classList.add('hidden');
+	elements.labelsList.classList.remove('hidden');
+	elements.labelDeclarations.classList.add('hidden');
+	
+	elements.labelsList.innerHTML = labels.map(labelObj => {
+		return '<a href="#" onclick="event.preventDefault(); loadLabelDeclarations(\'' +
+			escapeHtml(labelObj.label).replace(/'/g, "\\'") + '\');" ' +
+			'class="block py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded transition text-sm">' +
+			'<span class="text-slate-100">' + escapeHtml(labelObj.label) + '</span>' +
+			'<span class="text-slate-400 text-xs ml-1.5">(' + labelObj.count + ')</span>' +
+			'</a>';
+	}).join('');
+}
+
+function renderLabelDeclarations(decls) {
+	elements.labelsList.classList.add('hidden');
+	elements.labelDeclarations.classList.remove('hidden');
+	elements.selectedLabelName.textContent = selectedLabelInLabelsView;
+	
+	elements.labelDeclarationsList.innerHTML = decls.map(decl => {
+		let labelHtml = '';
+		if (decl.label) {
+			const labels = decl.label.split(':').map(l => l.trim()).filter(l => l);
+			labelHtml = labels.map(label => {
+				return '<a href="#" onclick="event.preventDefault(); loadLabelDeclarations(\'' +
+					escapeHtml(label).replace(/'/g, "\\'") + '\');" ' +
+					'class="inline-block bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 text-xs px-2 py-1 rounded-full mr-2 cursor-pointer transition">' +
+					escapeHtml(label) + '</a>';
+			}).join('');
+			labelHtml += '<br>';
+		}
+		return '<div class="bg-slate-900 rounded-lg shadow-lg p-6 mb-4 border border-slate-700">' +
+			labelHtml +
+			'<p class="text-slate-100 text-lg mb-2">' + escapeHtml(decl.text) + '</p>' +
+			'<p class="text-slate-400">— <a href="#" onclick="event.preventDefault(); showBibleModal(\'' +
+			escapeHtml(decl.reference).replace(/'/g, "\\'") + '\');" ' +
+			'class="text-blue-400 hover:text-blue-300 hover:underline transition">' +
+			escapeHtml(decl.reference) + '</a></p>' +
+		'</div>';
 	}).join('');
 }
 
@@ -396,12 +460,20 @@ function displayRandomDeclaration(decl) {
 	const div = document.createElement('div');
 	div.className = 'bg-slate-900 rounded-lg shadow-lg p-6 border border-slate-700 animate-fade-in';
 
-	const labelHtml = decl.label ?
-		'<span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded-full mb-2">' +
-		escapeHtml(decl.label) + '</span><br>' : '';
+	// Render labels as clickable badges (like in the list view)
+	let labelHtml = '';
+	if (decl.label) {
+		const labels = decl.label.split(':').map(l => l.trim()).filter(l => l);
+		labelHtml = labels.map(label => {
+			return '<a href="#" onclick="event.preventDefault(); filterByLabelAndSwitchToList(\'' +
+				escapeHtml(label).replace(/'/g, "\\'") + '\');" ' +
+				'class="inline-block bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 text-xs px-2 py-1 rounded-full mr-2 cursor-pointer transition">' +
+				escapeHtml(label) + '</a>';
+		}).join('');
+		labelHtml += '<br>';
+	}
 
-	//div.innerHTML = labelHtml +
-	div.innerHTML =
+	div.innerHTML = labelHtml +
 		'<p class="text-slate-100 text-lg mb-3 leading-relaxed">' + escapeHtml(decl.text) + '</p>' +
 		'<p class="text-slate-400">— <a href="#" onclick="event.preventDefault(); showBibleModal(\'' +
 		escapeHtml(decl.reference).replace(/'/g, "\\'") + '\');" ' +
@@ -416,35 +488,22 @@ function displayRandomDeclaration(decl) {
 	}
 }
 
-function showModal(title, declaration = null) {
-	elements.modalTitle.textContent = title;
-	elements.modal.classList.remove('hidden');
-	elements.modal.classList.add('flex');
-
-	if (declaration) {
-		editingId = declaration.id;
-		elements.labelInput.value = declaration.label || '';
-		elements.textInput.value = declaration.text;
-		elements.referenceInput.value = declaration.reference;
+function toggleLabelFilter(label) {
+	// Toggle the label filter
+	if (selectedLabel === label) {
+		// Clicking the same label again clears the filter
+		selectedLabel = null;
 	} else {
-		editingId = null;
-		elements.declarationForm.reset();
+		// Select the new label
+		selectedLabel = label;
 	}
-
-	elements.textInput.focus();
+	filterDeclarations();
 }
 
-function hideModal() {
-	elements.modal.classList.add('hidden');
-	elements.modal.classList.remove('flex');
-	editingId = null;
-}
-
-function editDeclaration(id) {
-	const declaration = declarations.find(d => d.id === id);
-	if (declaration) {
-		showModal('Edit Declaration', declaration);
-	}
+function filterByLabelAndSwitchToList(label) {
+	// Set the label filter and switch to list view
+	selectedLabel = label;
+	switchView('list');
 }
 
 function showBibleModal(reference) {
@@ -471,48 +530,24 @@ document.addEventListener('DOMContentLoaded', () => {
 	// View switching
 	elements.listViewBtn.addEventListener('click', () => switchView('list'));
 	elements.randomViewBtn.addEventListener('click', () => switchView('random'));
+	elements.labelsViewBtn.addEventListener('click', () => switchView('labels'));
 
 	// Search
 	elements.searchInput.addEventListener('input', filterDeclarations);
 
-	// Add button
-	elements.addBtn.addEventListener('click', () => showModal('Add Declaration'));
-
 	// Random declaration
 	elements.getRandomBtn.addEventListener('click', getRandomDeclaration);
 
-	// Modal
-	elements.cancelBtn.addEventListener('click', hideModal);
-	elements.modal.addEventListener('click', (e) => {
-		if (e.target === elements.modal) hideModal();
+	// Labels view
+	elements.clearLabelSelection.addEventListener('click', () => {
+		selectedLabelInLabelsView = null;
+		renderLabels();
 	});
 
 	// Bible Modal
 	elements.bibleModalClose.addEventListener('click', hideBibleModal);
 	elements.bibleModal.addEventListener('click', (e) => {
 		if (e.target === elements.bibleModal) hideBibleModal();
-	});
-
-	// Form submission
-	elements.declarationForm.addEventListener('submit', async (e) => {
-		e.preventDefault();
-
-		const declarationData = {
-			label: elements.labelInput.value.trim() || '',
-			text: elements.textInput.value.trim(),
-			reference: elements.referenceInput.value.trim()
-		};
-
-		try {
-			await saveDeclaration(declarationData);
-			hideModal();
-			if (currentView === 'list') {
-				await loadDeclarations();
-			}
-			await checkApiHealth();
-		} catch (error) {
-			showError('Failed to save declaration: ' + error.message);
-		}
 	});
 
 	// Initialize
