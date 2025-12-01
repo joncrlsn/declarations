@@ -1,16 +1,16 @@
 GOOGLE_PROJECT_ID = declarations-34xd
 REGION = us-central1
-GAR_IMAGE = $(REGION)-docker.pkg.dev/$(GOOGLE_PROJECT_ID)/docker/declarations:latest 
+GAR_IMAGE = $(REGION)-docker.pkg.dev/$(GOOGLE_PROJECT_ID)/docker/declarations:latest
 
 run:
 	@go run .
 
 docker-build:
 	echo "GAR_IMAGE=$(GAR_IMAGE)"
-	@docker build -t $(GAR_IMAGE) .
+	@docker buildx build --platform linux/amd64 -t $(GAR_IMAGE) .
 
-# docker-push: docker-build
-docker-push: 
+#docker-push: docker-build
+docker-push:
 	echo "GAR_IMAGE=$(GAR_IMAGE)"
 	@docker push $(GAR_IMAGE)
 
@@ -23,10 +23,12 @@ deploy:
 	  --region=$(REGION) \
 	  --platform=managed \
 	  --allow-unauthenticated \
+	  --update-secrets=ESV_API_TOKEN=esv-api-token:latest \
 	  --port=8080 \
 	  --max-instances=10 \
 	  --cpu=.5 \
-	  --memory=256Mi
+	  --memory=128Mi
+	  # --set-env-vars=ESV_API_TOKEN_SECRET=esv-api-token \
 
 copy: 
 	scp *.go 192.168.1.181:/Users/joncarlson/work/declarations

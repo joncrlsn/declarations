@@ -30,14 +30,17 @@ const htmlTemplate = `<!DOCTYPE html>
 		<!-- View Toggle -->
 		<div class="flex justify-center mb-6">
 			<div class="bg-slate-900 rounded-lg p-1 border border-slate-700">
-				<button id="random-view-btn" class="px-6 py-2 rounded-md bg-emerald-600 text-white transition">
+				<button id="random-view-btn" class="px-3 py-2.5 sm:px-4 md:px-6 text-sm md:text-base rounded-md bg-emerald-600 text-white transition touch-manipulation">
 					Random
 				</button>
-				<button id="list-view-btn" class="px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition">
+				<button id="list-view-btn" class="px-3 py-2.5 sm:px-4 md:px-6 text-sm md:text-base rounded-md text-slate-400 hover:text-slate-100 transition touch-manipulation">
 					Declarations
 				</button>
-				<button id="labels-view-btn" class="px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition">
+				<button id="labels-view-btn" class="px-3 py-2.5 sm:px-4 md:px-6 text-sm md:text-base rounded-md text-slate-400 hover:text-slate-100 transition touch-manipulation">
 					Labels
+				</button>
+				<button id="env-view-btn" class="px-3 py-2.5 sm:px-4 md:px-6 text-sm md:text-base rounded-md text-slate-400 hover:text-slate-100 transition touch-manipulation hidden">
+					Environment
 				</button>
 			</div>
 		</div>
@@ -46,7 +49,7 @@ const htmlTemplate = `<!DOCTYPE html>
 		<div id="random-view" class="">
 			<div class="bg-slate-900 rounded-lg shadow-lg p-6 mb-6 border border-slate-700">
 				<h2 class="text-xl font-semibold mb-4">Random Declaration</h2>
-				<button id="get-random-btn" class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+				<button id="get-random-btn" class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition touch-manipulation active:scale-95">
 					Get Random Declaration
 				</button>
 			</div>
@@ -108,6 +111,36 @@ const htmlTemplate = `<!DOCTYPE html>
 		</div>
 	</div>
 
+		<!-- Environment View -->
+		<div id="env-view" class="hidden">
+			<div class="bg-slate-900 rounded-lg shadow-lg p-6 border border-slate-700">
+				<h2 class="text-xl font-semibold mb-4">Environment Variables</h2>
+				<div id="env-loading" class="text-center py-8">
+					<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
+					<p class="mt-4 text-slate-400">Loading environment variables...</p>
+				</div>
+				<div id="env-error" class="bg-red-950/60 border border-red-500/60 text-red-200 px-4 py-3 rounded-lg hidden">
+					<span id="env-error-text"></span>
+				</div>
+				<div id="env-table-container" class="hidden overflow-x-auto">
+					<table class="w-full">
+						<thead class="bg-slate-800 border-b border-slate-700">
+							<tr>
+								<th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+									Variable Name
+								</th>
+								<th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+									Value
+								</th>
+							</tr>
+						</thead>
+						<tbody id="env-table" class="divide-y divide-slate-800">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
 	<!-- Labels View -->
 		<div id="labels-view" class="hidden">
 			<div class="bg-slate-900 rounded-lg shadow-lg p-6 mb-6 border border-slate-700">
@@ -155,6 +188,7 @@ let labels = [];
 let currentView = 'random';
 let selectedLabel = null;
 let selectedLabelInLabelsView = null;
+let envEnabled = false;
 
 // DOM elements
 const elements = {
@@ -176,6 +210,13 @@ const elements = {
 	randomDeclarations: document.getElementById('random-declarations'),
 	labelsViewBtn: document.getElementById('labels-view-btn'),
 	labelsView: document.getElementById('labels-view'),
+	envViewBtn: document.getElementById('env-view-btn'),
+	envView: document.getElementById('env-view'),
+	envLoading: document.getElementById('env-loading'),
+	envError: document.getElementById('env-error'),
+	envErrorText: document.getElementById('env-error-text'),
+	envTableContainer: document.getElementById('env-table-container'),
+	envTable: document.getElementById('env-table'),
 	labelsLoading: document.getElementById('labels-loading'),
 	labelsList: document.getElementById('labels-list'),
 	labelDeclarations: document.getElementById('label-declarations'),
@@ -252,6 +293,35 @@ async function loadLabelDeclarations(label) {
 	}
 }
 
+async function loadEnvironmentVariables() {
+	try {
+		elements.envLoading.classList.remove('hidden');
+		elements.envError.classList.add('hidden');
+		elements.envTableContainer.classList.add('hidden');
+		
+		const data = await apiCall('/api/v1/env');
+		const envVars = data.environment || {};
+		
+		// Sort environment variables by name
+		const sortedKeys = Object.keys(envVars).sort();
+		
+		elements.envTable.innerHTML = sortedKeys.map(key => {
+			return '<tr class="hover:bg-slate-800 transition">' +
+				'<td class="px-6 py-4 font-mono text-sm text-emerald-400">' + escapeHtml(key) + '</td>' +
+				'<td class="px-6 py-4 font-mono text-sm text-slate-300 break-all">' + escapeHtml(envVars[key]) + '</td>' +
+			'</tr>';
+		}).join('');
+		
+		elements.envLoading.classList.add('hidden');
+		elements.envTableContainer.classList.remove('hidden');
+	} catch (error) {
+		elements.envLoading.classList.add('hidden');
+		elements.envErrorText.textContent = 'Failed to load environment variables: ' + error.message;
+		elements.envError.classList.remove('hidden');
+		console.error('Failed to load environment variables:', error);
+	}
+}
+
 async function getRandomDeclaration() {
 	try {
 		const declaration = await apiCall('/api/v1/declarations/random');
@@ -312,23 +382,34 @@ function switchView(view) {
 	elements.listView.classList.add('hidden');
 	elements.randomView.classList.add('hidden');
 	elements.labelsView.classList.add('hidden');
+	elements.envView.classList.add('hidden');
 
 	// Reset all buttons
-	elements.listViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
-	elements.randomViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
-	elements.labelsViewBtn.className = 'px-6 py-2 rounded-md text-slate-400 hover:text-slate-100 transition';
+	const inactiveClass = 'px-3 py-2.5 sm:px-4 md:px-6 text-sm md:text-base rounded-md text-slate-400 hover:text-slate-100 transition touch-manipulation';
+	const activeClass = 'px-3 py-2.5 sm:px-4 md:px-6 text-sm md:text-base rounded-md bg-emerald-600 text-white transition touch-manipulation';
+	
+	elements.listViewBtn.className = inactiveClass;
+	elements.randomViewBtn.className = inactiveClass;
+	elements.labelsViewBtn.className = inactiveClass;
+	if (envEnabled) {
+		elements.envViewBtn.className = inactiveClass;
+	}
 
 	if (view === 'list') {
 		elements.listView.classList.remove('hidden');
-		elements.listViewBtn.className = 'px-6 py-2 rounded-md bg-emerald-600 text-white transition';
+		elements.listViewBtn.className = activeClass;
 		loadDeclarations();
 	} else if (view === 'labels') {
 		elements.labelsView.classList.remove('hidden');
-		elements.labelsViewBtn.className = 'px-6 py-2 rounded-md bg-emerald-600 text-white transition';
+		elements.labelsViewBtn.className = activeClass;
 		loadLabels();
+	} else if (view === 'env' && envEnabled) {
+		elements.envView.classList.remove('hidden');
+		elements.envViewBtn.className = activeClass;
+		loadEnvironmentVariables();
 	} else {
 		elements.randomView.classList.remove('hidden');
-		elements.randomViewBtn.className = 'px-6 py-2 rounded-md bg-emerald-600 text-white transition';
+		elements.randomViewBtn.className = activeClass;
 	}
 }
 
@@ -527,10 +608,20 @@ function escapeHtml(text) {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
+	// Check for env query parameter
+	const urlParams = new URLSearchParams(window.location.search);
+	envEnabled = urlParams.get('env') === 'true';
+	if (envEnabled) {
+		elements.envViewBtn.classList.remove('hidden');
+	}
+
 	// View switching
 	elements.listViewBtn.addEventListener('click', () => switchView('list'));
 	elements.randomViewBtn.addEventListener('click', () => switchView('random'));
 	elements.labelsViewBtn.addEventListener('click', () => switchView('labels'));
+	if (envEnabled) {
+		elements.envViewBtn.addEventListener('click', () => switchView('env'));
+	}
 
 	// Search
 	elements.searchInput.addEventListener('input', filterDeclarations);
@@ -564,6 +655,36 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 .animate-fade-in {
 	animation: fade-in 0.3s ease-out;
+}
+
+/* Mobile touch optimization */
+@media (hover: none) and (pointer: coarse) {
+	/* Increase tap target size for mobile */
+	a, button {
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	/* Remove hover effects on touch devices */
+	button:hover {
+		transform: none;
+	}
+	
+	/* Add active state feedback for better touch UX */
+	button:active {
+		opacity: 0.8;
+	}
+}
+
+/* Ensure buttons don't wrap on mobile even with 4 buttons */
+@media (max-width: 640px) {
+	#random-view-btn, #list-view-btn, #labels-view-btn, #env-view-btn {
+		font-size: 0.8125rem; /* 13px */
+		padding-left: 0.625rem; /* 10px */
+		padding-right: 0.625rem; /* 10px */
+	}
 }
 </style>
 

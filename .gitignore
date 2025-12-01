@@ -27,7 +27,11 @@ go.work.sum
 # env file
 .env
 .api-token
+.esv-api-token
+declarations
 
 # Editor/IDE
 # .idea/
 # .vscode/
+
+

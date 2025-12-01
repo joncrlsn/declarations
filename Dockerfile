@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.21-alpine AS builder
+FROM golang:1.24-alpine AS builder
 WORKDIR /app
 # Enable Go modules and download dependencies
 COPY go.mod ./
@@ -17,7 +17,7 @@ RUN apk --no-cache add ca-certificates
 # Copy binary from builder
 COPY --from=builder /app/server /app/server
 COPY declarations.txt /app/declarations.txt
-COPY .api-token /app/.api-token
+#COPY .api-token /app/.api-token
 
 EXPOSE 8080
 # Run the server

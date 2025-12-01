@@ -397,15 +397,33 @@ func (api *DeclarationsAPI) GetHealth(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// GetEnv handles GET /api/v1/env
+func GetEnv(w http.ResponseWriter, r *http.Request) {
+	envVars := os.Environ()
+	envMap := make(map[string]string)
+
+	for _, env := range envVars {
+		parts := strings.SplitN(env, "=", 2)
+		if len(parts) == 2 {
+			envMap[parts[0]] = parts[1]
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"environment": envMap,
+	})
+}
+
 // getESVToken retrieves the ESV API token from environment or file
 func getESVToken() (string, error) {
-	// Check environment variable first (for Google Cloud Run)
+	// Check environment variable first (Populated for Google Cloud Run)
 	if token := os.Getenv("ESV_API_TOKEN"); token != "" {
 		return strings.TrimSpace(token), nil
 	}
 
 	// Fall back to local file
-	tokenData, err := os.ReadFile(".api-token")
+	tokenData, err := os.ReadFile(".esv-api-token")
 	if err != nil {
 		return "", fmt.Errorf("failed to read API token: %w", err)
 	}

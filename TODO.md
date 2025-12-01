@@ -6,8 +6,9 @@
 
 ## Google Cloud Deployment Tasks
 - [x] Build a Dockerfile that creates a container that runs on Intel
-- [ ] Add Google Cloud Storage integration to replace local file storage
-- [ ] Add environment variable support for GCS bucket name and credentials
+- [x] Store ESV api token in Google Secret Manager
+- [x] During gcloud run deploy, set ESV_API_TOKEN to the secret value from Google Secret Manager (GSM)
+- [ ] When running in gcloud, retrieve declarations from Google Cloud Storage, otherwise use local file
 - [ ] Create a script to ...
       - Create Google Cloud Storage bucket for declarations file
       - Upload initial declarations.txt file to GCS bucket
@@ -18,4 +19,3 @@
 - [ ] Set up environment variables in Cloud Run (GCS_BUCKET_NAME, etc.)
 - [ ] Test deployment in Google Cloud Run
 - [ ] Configure custom domain (optional)
-- [ ] Set up monitoring and logging

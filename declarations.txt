@@ -1,5 +1,5 @@
 :Warfare:NoFear: When I stand firm and am not afraid, I see the deliverance the LORD brings me. - Exodus 14:13
-The LORD will fight for you, so stop whining. - Exodus 14:14
+:Mouth: The LORD will fight for you, so stop whining. - Exodus 14:14
 :Action: Rather than crying out to God, I act with conviction that God's power is my power, that what he says about me is true. - Exodus 14:15-16
 :Healing:Provision: God will bless my bread and my water, and will take sickness away from around me. - Exodus 23:25
 :Action:Dominion: Every place my foot steps shall be mine. - Deut 11:24, Josh 1:3
@@ -44,18 +44,19 @@ My steps are ordered by YHWH God and I delight in Him. - Psalm 37:23
 I teach transgressors your ways and sinners return to you. - Psalm 51:13
 :Unmovable: He alone is my rock; he is my fortress; I will never be shaken. - Psalm 62:1
 Whom have I in heaven but you? And earth has nothing I desire besides you. - Psalm 73:25
-:Provision: I open my mouth wide, and Yahua fills it. - Psalm 81:10
-:Refuge: He covers me with His feathers, and under His wings I take refuge. - Psalm 91:2-4
+:Provision: I open my mouth wide, and YHWH God fills it. - Psalm 81:10
+:Protection: He covers me with His feathers, and under His wings I take refuge. - Psalm 91:2-4
 :Protection: I will not fear the terror of the night, nor the arrow that flies by day, nor the pestilence that stalks in the darkness, nor the plague that destroys at midday. - Psalm 91:5-6
 :Protection: A thousand may fall at my side, ten thousand at my right hand, but evil will not come near me. - Psalm 91:7-8
-:Protection: No evil shall befall me and no plague shall come near my body or my house because I have made the LORD my dwelling place. - Psalm 91:9-10
+:Protection:DivineHealth: No evil shall befall me and no plague shall come near my body or my house because I have made the LORD my dwelling place. - Psalm 91:9-10
 :Protection:Angels: I have angels to guard me in all my ways. - Psalm 91:11, Hebrews 1:14
 :Angels: Angels are my servants. - Hebrews 1:14
 :DivineHealth: No sickness shall come near my tent [body or dwelling place]. - Psalm 91:9-12
-:LongLife: Because I hold fast to Him in love, He will deliver me; ...and with long life He will satisfy me. - Psalm 91:14-16
+:ThisLife:Promise: Because I hold fast to Him in love, He will deliver me; ...and with long life He will satisfy me. - Psalm 91:14-16
 :Blessing: The blessings of God encircle me. - Psalm 103:4
-:Energy:Strength: He satisfies me with good, so that my youth is renewed like the eagle's. - Psalm 103:5
+:Strength: He satisfies me with good, so that my youth is renewed like the eagle's. - Psalm 103:5
 :Dominion:Angels:Mouth: Angels obey when I speak God's word, not when I'm emotional or pleading. - Psalm 103:20
+:GoodGod:Healing: He sent out his word and healed them, and delivered them from their destruction. - Psalm 107:20
 :Promise:Children: My descendants will be mighty on the earth. - Psalm 112:1
 :NoFear:Confidence: I will *not* fear evil tidings. - Psalm 112:7
 :NoFear: My heart is established.  It will not be afraid until I see my desire upon my enemies. - Psalm 112:8
@@ -66,20 +67,20 @@ Whom have I in heaven but you? And earth has nothing I desire besides you. - Psa
 :Omnipresent: Where can I go from your Spirit? Where can I flee from your presence? If I go up to the heavens, you are there; if I make my bed in the depths, you are there. - Psalm 139:7-8
 :Omnipresent: If I rise on the wings of the dawn, if I settle on the far side of the sea, even there your hand will guide me, your right hand will hold me fast. - Psalm 139:9–10
 My days are appointed. - Psalm 139:16
-:GodsCare: I am always on God's mind; He thinks about me constantly. - Psalm 139:17-18
+:GoodGod: I am always on God's mind; He thinks about me constantly. - Psalm 139:17-18
 :Mouth: I set a guard over my mouth and I keep watch over the door of my lips! - Psalm 141:3
 :Meditation: I meditate on the glorious splendor of your majesty, and on Your wondrous works. - Psalm 145:5
 :Mercy: YWHW is gracious and full of compassion, slow to anger and great in mercy. - Psalm 145:8
 YHWH executes justice *for* the oppressed. - Psalm 146:7
 YHWH opens the eyes of the blind, raises those who are bowed down. - Psalm 146:8
-:Trust: I trust in the Lord with all my heart.  In all my ways I acknowledge him and he directs my paths. - Prov 3:5-6
+I trust in the Lord with all my heart.  In all my ways I acknowledge him and he directs my paths. - Prov 3:5-6
 :Rest:NoFear: When I lie down, I will not be afraid. When I lie down my sleep will be sweet. - Prov 3:24
-:DivineHealth:Health: Your words are life to me, and health to all my flesh. - Prov 4:22
+:DivineHealth: Your words are life to me, and health to all my flesh. - Prov 4:22
 I keep my heart with all vigilance, for from it flow the springs of life. - Prov 4:23
-:Memory: My ability to remember is blessed. - Prov 10:7
-Whoever brings blessing will be enriched, and the one who waters will himself be watered. - Prov 11:25
-My words contain life and death. - Prov 18:21
-As I think in my heart, so am I. - Prov 23:7
+My ability to remember is blessed. - Prov 10:7
+:Promise: Whoever brings blessing will be enriched, and the one who waters will himself be watered. - Prov 11:25
+:Mouth: My words contain life and death. - Prov 18:21
+:Meditation: As I think in my heart, so am I. - Prov 23:7
 For the righteous falls seven times and rises again. - Prov 24:16
 A soft tongue breaks a bone. - Prov 25:15
 I am bold as a lion because I know I am declared righteous. - Prov 28:1
@@ -96,8 +97,8 @@ For thus says the LORD: “Even the captives of the mighty shall be taken, and t
 He has given me the tongue of the learned, that I should know how to speak a word in season to him who is weary. - Isaiah 50:4
 Morning by morning He awakens me. He awakens my ear to hear as the learned. - Isaiah 50:4
 I will not run away from anything, for the LORD will go before me and the God of Israel will be my rear guard. - Isaiah 52:12
-Surely he has born my sickness and pains, and by his stripes I am healed. - Isaiah 53:4-5
-By Jesus' stripes I am healed. - Isaiah 53:5
+:Healing: Surely he has born my sickness and pains, and by his stripes I am healed. - Isaiah 53:4-5
+:Healing: By Jesus' stripes I am healed. - Isaiah 53:5
 All my children shall be taught by the LORD, and great shall be the peace of my children. - Isaiah 54:13
 I shall be far from oppression, for I shall not fear.  Terror shall not come near me. - Isaiah 54:14
 When I know that I have am declared righteous I am established, rooted, unmovable, far from oppression, fearing nothing, and far from terror for it shall not come near me. - Isiah 54:14
@@ -110,7 +111,7 @@ My words go out from me and bring life just like God's words. They shall not ret
 Even though darkness covers the earth, I arise and shine shine, for mylight has come, and the glory of the LORD has risen upon me. - Isaiah 60:1-2
 God thinks peace and not evil towards me, to give me a future and a hope. - Jer 29:11
 You will seek Me and find Me when you search for me with all your heart. - Jer 29:13
-:Health: For I will restore health to you and heal you of your wounds, says YHWH. - Jer 30:17
+:Healing: For I will restore health to you and heal you of your wounds, says YHWH. - Jer 30:17
 The creator of the universe, my Dad, loves me with an everlasting love. - Jer 31:3
 :Children: And they shall come back from the land of the enemy. There is hope in your future, says the LORD, that your children shall come back to their own border. - Jer 31:35
 :Mouth: What you have spoken has happened [And what you speak, believing, will happen] - Jer 32:24
@@ -131,11 +132,10 @@ I am the salt and light of the earth. - Matt 5:13-14
 I put my light high so it can be seen. I let it shine before men that they may see it and glorify my Father in heaven. - Matt 5:15-16
 :Mouth: I am careful with what I say. What I say matters. - Matt 5:37, Prov 4:24
 :Contentment: I do not worry about my life, what I will eat or drink or wear. But I seek first His kingdom and His righteousness. - Matt 6:25,33
-:Wisdom: I both hear and do Jesus' words, which makes me wise. - Matt 7:24
+:Action: I both hear and do Jesus' words, which makes me wise. - Matt 7:24
 I am like the wise man who built his house upon a rock, because I both hear and do Jesus' words. - Matt 7:24-27
-As I believe, so it will be done for me. - Matt 8:13
-I pray for more workers for the harvest. - Matt 9:38
-:JesusInMe: I have more than enough power inside me to heal the sick and cast out devils. - Matt 10:1
+:Action: As I believe and act, so it will be done for me. - Matt 8:13
+:JesusInMe:Healing: I have more than enough power inside me to heal the sick and cast out devils. - Matt 10:1
 I give freely, never expecting to get anything back. (Even if I get hurt in the process). - Matt 10:8
 I give without pay because I received without paying. - Matthew 10:8
 :Omniscient: My heavenly Dad knows everything about me, even the number of hairs on my head. - Matt 10:30
@@ -156,17 +156,18 @@ I hold fast to the word of God over the traditions of men. - Mark 7:7
 :Faith: My faith can move mountains. - Mark 11:23
 :Faith: Whatever I ask in prayer with belief that I'm receiving it, it will be mine. - Mark 11:24
 :Forgiveness: If I do not forgive, neither will my Father in heaven forgive me. - Mark 11:26
-:Dominion: Jesus expects me to heal the sick and cast out demons. - Mark 16:17-18
+:Dominion:Healing: Jesus expects me to heal the sick and cast out demons. - Mark 16:17-18
 :Dominion: Signs will follow me, not the other way around. - Mark 16:17-18
 :DivineHealth: My life and health is protected. - Mark 16:18
 I increase in wisdom and in favor with both God and men. - Luke 2:52
 :Persecution: I bless those who curse me, and I pray for those who abuse me. - Luke 6:28
-:GoldenRule: I do to others what I wish they would do to me (i.e. I go out of my way to bring Jesus' healing to them). - Luke 6:31
+:Action: I do to others what I wish they would do to me [I go out of my way to bring Jesus' healing to them]. - Luke 6:31
 I am merciful, I do not judge others, and I forgive quickly. As I do this by God's grace, He blesses my life. - Luke 6:36-38
-I am not ashamed of Jesus or his words. - Luke 9:26
+:Unashamed: I am not ashamed of Jesus or his words. - Luke 9:26
 I put my hand to the plow and only look forward. Never back. - Luke 9:62
 I travel light and I allow no one to deter me from my mission. - Luke 10:4
 :Dominion: I have authority over all the power of the enemy and nothing shall hurt me. - Luke 10:19
+:Dominion: I have more authority than angels. - Luke 10:19; Psalm 115:16; Genesis 1:26; Psalm 8:6
 :Persistence: I persist, and I receive whatever I ask. - Luke 11:8-9
 :Action: I ask and it is given to me; I seek and I find; I knock and it is opened to me. - Luke 11:9
 :GoodGod: If I know how to give good gifts to my children, how much more will my Father in heaven give me good gifts? - Luke 11:13
@@ -177,7 +178,7 @@ I travel light and I allow no one to deter me from my mission. - Luke 10:4
 Like Jesus, I do not seek glory from others but from the only God. - John 5:41,44
 I think Jesus' words so my words are Spirit and life. - John 6:63 
 :Spirit: Out of my belly [heart/spirit] flow rivers of living water... because I believe in Jesus. - John 7:38
-I abide in Jesus' words, and I know the truth, and the truth makes me free. - John 8:31-32
+:Freedom: I abide in Jesus' words, and I know the truth, and the truth makes me free. - John 8:31-32
 :Satan: The devil is a murderer and has been a liar from the beginning. - John 8:44
 We must work the works of him who sent Jesus while it is day. Night is coming when no one can work. - John 9:4
 :Satan: The thief comes only to steal, kill, and destroy. But Jesus came that I may have life, and have it abundantly. - John 10:10
@@ -190,7 +191,7 @@ We must work the works of him who sent Jesus while it is day. Night is coming wh
 :NoFear: I do not let my heart be troubled. Neither do I let it be afraid. - John 14:27
 :Chosen: I have been chosen and appointed to bear fruit. - John 15:16
 :Persecution: I will be persecuted because Jesus was persecuted. - John 15:20
-:Spirit: The Spirit of truth leads and guides me into all truth and I walk in the truth. - John 16:13
+:Spirit:AllThings: The Spirit of truth leads and guides me into all truth and I walk in the truth. - John 16:13
 :Spirit: The Spirit will tell me of things to come. - John 16:13
 :JesusInMe: Jesus shares God's glory with us, so that we may be one even as Jesus and his Father are one. - John 17:22-23
 :Position: The Father loves me as much as He loves Jesus. - John 17:23
@@ -204,7 +205,7 @@ For all have sinned and fall short of the glory of God. - Rom 3:23
 :NewMan:Position: In Christ, I am dead to sin [my relationship to it is broken] and alive to God [living in unbroken fellowship with him] - Rom 6:11
 :Freedom: I do not allow sin to have dominance over me, and I present my members as instruments of righteousness to God; All because I am under grace. - Rom 6:13-14
 :NewMan: I serve in newness of Spirit, and not in oldness of the letter. - Rom 7:6
-:Boldness:Righteousness: There is no condemnation for me because I am in Christ Jesus and I walk not after the flesh but after the Spirit. - Rom 8:1,4
+:Boldness:Confidence: There is no condemnation for me because I am in Christ Jesus and I walk not after the flesh but after the Spirit. - Rom 8:1,4
 :Freedom: I am set free from the law of sin and death. - Rom 8:2
 :MindRenewal: Setting the mind on the flesh is death, but I set my mind on the Spirit, which is life and peace. - Rom 8:6
 :DivineHealth:ThisLife: The same Spirit that raised Jesus from the dead also dwells in me and revitalizes my mortal body through his Spirit. - Rom 8:11
@@ -267,13 +268,13 @@ I pursue love and desire spiritual gifts, especially prophesy. - 1 Cor 14:1
 :Mouth: I believe, therefore I speak. - 2 Cor 4:13; Ps 116:10
 I fix my eyes on what is unseen. What is seen is temporary, unseen is eternal. - 2 Cor 4:18
 Life swallows up what is mortal. - 2 Cor 5:4
-I walk in faith, not by sight. - 2 Cor 5:7 and Heb 11:1
+:Faith: I walk in faith, not by sight. - 2 Cor 5:7 and Heb 11:1
 The love of Christ compels me. - 2 Cor 5:14
 :NewMan: I am a new creation. - 2 Cor 5:17
 :NewMan: Old things are passed away, the new has come! - 2 Cor 5:17
 I am reconciled to God by Christ Jesus. - 2 Cor 5:18
 I am a minister of reconciliation. - 2 Cor 5:18
-I am the righteousness of God in Christ. - 2 Cor 5:21
+:Position: I am the righteousness of God in Christ. - 2 Cor 5:21
 :Provision: I have an abundance for every good work. - 2 Cor 9:8
 :Warfare: I am a warrior for Christ. - 2 Cor 10:3-5
 :Warfare: The weapons of my warfare are not wordly, but have divine power to destroy human reasoning and false arguments. - 2 Cor 10:4
@@ -285,10 +286,10 @@ I am dead to the law that I might live to God. - Gal 2:19
 :NewMan: I have been crucified with Christ. It is no longer I who live, but Christ who lives in me. - Gal 2:20
 I live by faith in the Son of God who loved me, and gave himself for me. - Gal 2:20
 I received the Spirit by the hearing of faith, and not by the works of the law. - Gal 3:20
-I am God's child, an heir! - Gal 4:7
+:Position: I am God's child, an heir! - Gal 4:7
 :MindRenewal: I do not gratify the desires of my flesh because I walk by the Spirit. - Gal 5:16
 :MindRenewal: When I walk by the Spirit, I do not gratify the desires of the flesh. - Gal 5:16
-:SowReap: I will reap whatever I am now sowing. - Gal 6:7
+:Promise: I will reap whatever I am now sowing. - Gal 6:7
 :Persistence: I will not give up in doing good (doing what God says) and I will reap in due time. - Gal 6:9
 :NewMan: By the cross, the world is crucified to me, and I to the world. - Gal 6:14
 :NewMan: In Christ, only the new creation means anything. - Gal 6:15
@@ -298,14 +299,14 @@ I am blessed with *every* spiritual blessing. - Eph 1:3
 :Righteous: I am made acceptable in the Beloved (Jesus). - Eph 1:6
 I have the spirit of wisdom and revelation in the knowledge of Jesus. - Eph 1:17
 I have been given resurrection power. - Eph 1:19-20
-I am God's workmanship, created in Christ Jesus for good works, which God prepared beforehand. - Eph 2:10
+:Position: I am God's workmanship, created in Christ Jesus for good works, which God prepared beforehand. - Eph 2:10
 I am alive together with Christ. - Eph 2:5
-I am saved by grace. - Eph 2:5
+:Position: I am saved by grace. - Eph 2:5
 :Heir:Position: I am [now] seated with Christ in the heavenly places. - Eph 2:6
 :GoodWorks: I am God's workmanship, created in Christ Jesus for good works. - Eph 2:10
 :Position: I am one with Christ. - Eph 2:15
 :Position: Because of Jesus, I have the same access to the Father that Jesus has. - Eph 2:18
-:Boldness:Righteous: I am free and confident to approach God. - Eph 3:12
+:Boldness:Righteous:Freedom: I am free and confident to approach God. - Eph 3:12
 Lord, grant me to be strengthened with power through your Spirit in my inner being...that I may be filled with all the fullness of God and know the love of Christ which passes knowledge. - Eph 3:16
 :Love: I am filled with all the fullness of God when I know the love of Christ that surpasses knowledge. - Eph 3:19
 My God is able to do exceedingly abundantly, above all I ask or think, according to the power at work within me. - Eph 3:20
@@ -325,15 +326,15 @@ I fix my eyes *not* on what is seen, but on what is unseen. For what is seen is 
 :Confidence: He who began a good work in me will perform it until the day of Jesus Christ. - Phil 1:6
 For it is God who works in me to will and to act in order to fulfill his good purpose. - Phil 2:13 
 :ShortTimer: I count as a loss the things that I once thought mattered. - Phil 3:7
-:Fight:Warfare: I'm not perfect, but I keep fighting to lay hold of that for which Jesus Christ laid hold of me. - Phil 3:12
-:Forward: I don't look back at my screw-ups. I reach forward (straining when necessary) to the amazing things Christ has for me to be and do. - Phil 3:13
+:Warfare: I'm not perfect, but I keep fighting to lay hold of that for which Jesus Christ laid hold of me. - Phil 3:12
+I don't look back at my screw-ups. I reach forward (straining when necessary) to the amazing things Christ has for me to be and do. - Phil 3:13
 :Position: I am a citizen of heaven. - Phil 3:20
-:Peace: I have the peace of God that surpasses all understanding. - Phil 4:7
+I have the peace of God that surpasses all understanding. - Phil 4:7
 :MindRenewal: I think on whatever is true, honest, just, pure, lovely, and commendable. - Phil 4:8
-I can do everything I need to do through Christ who strengthens me. - Phil 4:13
-:Provision: My God will supply all my needs according to his riches in glory in Christ Jesus. - Phil 4:19
+:AllThings: I can do everything I need to do through Christ who strengthens me. - Phil 4:13
+:Provision:AllThings: My God will supply all my needs according to his riches in glory in Christ Jesus. - Phil 4:19
 :Position: I am the carrier of the King of Glory. - Col 1:27
-I am delivered from the powers of darkness. - Col 1:13
+:Freedom: I am delivered from the powers of darkness. - Col 1:13
 :Position: I am complete in Him who is the head of all principality and power. - Col 2:10
 :NewMan: I am buried with Christ in baptism, and raised with Him through faith. - Col 1:12
 :Righteous: I am forgiven for all my sins. - Col 2:13
@@ -343,24 +344,24 @@ I set my affections on things above, not on things on the earth. - Col 3:2
 :Thankful: In everything I give thanks, which is the will of God in Christ Jesus for me. - 1 Thess 5:18
 :Boldness: I have great boldness of faith in Christ Jesus. - 1 Tim 3:13
 I have the promise of life which is in Christ Jesus. - 2 Tim 1:1
-I stir up the gift of God in me. - 2 Tim 1:6
+:Spirit:Action: I stir up the gift of God in me. - 2 Tim 1:6
 :NoFear: I have NOT been given a spirit of fear, but of power, love, and sound mind. - 2 Tim 1:7
 :NewMan: I have been given a spirit of power, love, and sound mind. - 2 Tim 1:7
-I hold fast to sound words, the same words I hear in Paul, and in Jesus' faith and love. - 2 Tim 1:13
+:Action: I hold fast to sound words, the same words I hear in Paul, and in Jesus' faith and love. - 2 Tim 1:13
 :Confidence:Boldness: I present myself as one approved, a worker who does not need to be ashamed and who correctly handles the word of truth. - 2 Tim 2:2
 I avoid foolish and ignorant disputes, knowing they generate strife. I am gentle to all, able to teach, patient, and in humility, correcting. - 2 Tim 2:23-25
-:Friends: I "turn away" from people who have a form of godliness, but deny it's power. - 2 Tim 3:5
+I "turn away" from people who have a form of godliness, but deny it's power. - 2 Tim 3:5
 :MindRenewal: I know the scriptures, which are able to make me wise for salvation through faith, which is in Jesus. - 2 Tim 3:15
 :MindRenewal: I constantly acknowledge every good thing that is in me in Christ Jesus, and my faith is made effectual. - Philemon 1:6
 The Father has anointed Jesus [and me] with the oil of gladness beyond my companions. - Heb 1:9
 :Faith: My faith pleases God. - Heb 4:11
-I consider others and provoke them to love and to good works. - Heb 10:24
+:Action: I consider others and provoke them to love and to good works. - Heb 10:24
 I assemble with the saints more and more often. - Heb 10:25
 :Persistence: I will not cast away my confidence; And that will be richly rewarded. - Heb 10:35
 :Faith: Faith is the evidence of things unseen. The seen world is inferior to the unseen because the seen came out of the unseen. - Heb 11:1,3
 :Persistence: Before I let myself become weary and discouraged, I consider Him who endured such hostility. I have not yet struggled against sin to that point. - Heb 12:3,4
 :Confidence:Boldness: God is *always* with me. - Heb 13:5
-Every good and perfect gift is from above, and comes down from the Father of lights, who *never* changes, not even a shadow of turning. - James 1:16-17
+:GoodGod: Every good and perfect gift is from above, and comes down from the Father of lights, who *never* changes, not even a shadow of turning. - James 1:16-17
 :Action: As I hear God's word, I do what it says and I am blessed in my actions. - James 1:22,25
 :Mouth: If I do not bridle my tongue, my religion is worthless. - James 1:26
 :Faith: Faith without works is dead. - James 2:20,26
@@ -371,12 +372,13 @@ Angels rejoice over me and demons flee from me. - James 4:7
 :Action: If I know to do good, but do not do it, it is sin. - James 4:17
 I am a party waiting to happen. - 1 Peter 1:8
 :Action:MindRenewal: I gird up the loins of my mind. - 1 Peter 1:13
-:Position: I am placed and seated with Him, a king and priest, part of a chosen generation, a peculiar people. - 1 Peter 2:9, Eph 2:6
-:Mouth: When I speak, I speak as if God is speaking. When I serve, I serve with God's strength. - 1 Peter 4:11
+:Healing: By his stripes we *were* healed. - 1 Peter 2:24
+:Position:Chosen: I am placed and seated with Him, a king and priest, part of a chosen generation, a peculiar people. - 1 Peter 2:9, Eph 2:6
+:Mouth:Dominion: When I speak, I speak as if God is speaking. When I serve, I serve with God's strength. - 1 Peter 4:11
 I humble myself under the mighty hand of God, that he may exalt me in due time. - 1 Peter 5:6
 :NoFear: I cast all my anxieties on Jesus because he cares for me. - 1 Peter 5:7
 Grace and peace will be multiplied to me in the knowledge of God and Jesus, our Lord. - 2 Peter 1:2
-:Provision: Christ has given me *all* things that pertain to life and godliness. - 2 Peter 1:3
+:Provision:AllThings: Christ has given me *all* things that pertain to life and godliness. - 2 Peter 1:3
 :Position: Through Christ, I have everything I need to live godly and partake in His divine nature. - 2 Peter 1:3-4
 :Action: For if I have faith, virtue, knowledge, self-control, perseverance, godliness, kindness and love (and they abound in me) then I WILL be neither barren nor unfruitful in the knowledge (initimate closeness) of Jesus. - 2 Peter 1:5-8
 If I abound in the things of God, I will be neither barren nor unfruitful in the knowledge of our Lord Jesus Christ. - 2 Peter 1:8
@@ -389,16 +391,16 @@ The anointing I received from Jesus abides, and I do not need that anyone teach 
 :Love: I am coming to know and believe the love God has for me. - 1 John 4:16
 Whoever abides in love abides in God, and God in him. - 1 John 4:16
 :Boldness: I will know I have God's love when I am bold for Him in other's lives. - 1 John 4:17
-As God is, so am I in this world (i.e. Love that acts). - 1 John 4:17
-There is no fear in love, but perfect love casts out fear. For fear has to do with punishment, and whoever fears has not been perfected in love. - 1 John 4:18
+:Dominion: As God is, so am I in this world (i.e. Love that acts). - 1 John 4:17
+:NoFear: There is no fear in love, but perfect love casts out fear. For fear has to do with punishment, and whoever fears has not been perfected in love. - 1 John 4:18
 I love because God first loved me. (And I show love through doing, just as Jesus did). - 1 John 4:19  
-Whatever is born of God overcomes the world. - 1 John 5:4
-I overcome the world because I believe (with actions) that Jesus is the Son of God. - 1 John 5:5
+:Overcomer: Whatever is born of God overcomes the world. - 1 John 5:4
+:Overcomer: I overcome the world because I believe (with actions) that Jesus is the Son of God. - 1 John 5:5
 If I ask anything according to his will, he hears me. - 1 John 5:14
-Whatever I ask according to his will he hears. And if he hears, I know that I have what I asked of him. - 1 John 5:14-15
-I am born of God, the evil one cannot touch me. - 1 John 5:18
-By praying in the spirit, I keep myself built up in the love of God. - Jude 1:20-21
-I will be given authority over the nations because I will conquer and keep Jesus' works until the end. - Rev 2:26
+:Faith: Whatever I ask according to his will he hears. And if he hears, I know that I have what I asked of him. - 1 John 5:14-15
+:Protection: I am born of God, the evil one cannot touch me. - 1 John 5:18
+:Spirit: By praying in the Spirit, I keep myself built up in the love of God. - Jude 1:20-21
+:Overcomer: I will be given authority over the nations because I will conquer and keep Jesus' works until the end. - Rev 2:26
 I never say "I can't" because I have THE I CAN living inside of me. - Smith Wigglesworth
-Faith doesn't stop until it gets what it goes for. - Curry Blake
-I am God's son, man's servant, and the devil's master. - 1 Cor 9:19; 2 Cor 4:5; Curry Blake
+:Faith: Faith doesn't stop until it gets what it goes for. - Curry Blake
+:Dominion: I am God's son, man's servant, and the devil's master. - 1 Cor 9:19; 2 Cor 4:5; Curry Blake

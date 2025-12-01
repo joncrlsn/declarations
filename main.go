@@ -50,6 +50,16 @@ func handleAPIRoutes(api *DeclarationsAPI, w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	// GET /api/v1/env
+	if path == "/api/v1/env" {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		GetEnv(w, r)
+		return
+	}
+
 	// GET /api/v1/declarations/random
 	if path == "/api/v1/declarations/random" {
 		if r.Method != http.MethodGet {
