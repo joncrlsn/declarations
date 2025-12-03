@@ -7,7 +7,7 @@ RUN go mod tidy || true
 # Copy the rest of the source
 COPY . .
 # Build the binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o server .
 
 # Runtime stage
 FROM alpine:3.20
@@ -16,7 +16,7 @@ WORKDIR /app
 RUN apk --no-cache add ca-certificates
 # Copy binary from builder
 COPY --from=builder /app/server /app/server
-COPY declarations.txt /app/declarations.txt
+#COPY declarations.txt /app/declarations
 #COPY .api-token /app/.api-token
 
 EXPOSE 8080

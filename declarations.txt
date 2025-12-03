@@ -71,26 +71,26 @@ My days are appointed. - Psalm 139:16
 :Mouth: I set a guard over my mouth and I keep watch over the door of my lips! - Psalm 141:3
 :Meditation: I meditate on the glorious splendor of your majesty, and on Your wondrous works. - Psalm 145:5
 :Mercy: YWHW is gracious and full of compassion, slow to anger and great in mercy. - Psalm 145:8
-YHWH executes justice *for* the oppressed. - Psalm 146:7
-YHWH opens the eyes of the blind, raises those who are bowed down. - Psalm 146:8
+:GoodGod: YHWH God executes justice *for* the oppressed. - Psalm 146:7
+:Healing: YHWH God opens the eyes of the blind and lifts up those who are bowed down. - Psalm 146:8
 I trust in the Lord with all my heart.  In all my ways I acknowledge him and he directs my paths. - Prov 3:5-6
 :Rest:NoFear: When I lie down, I will not be afraid. When I lie down my sleep will be sweet. - Prov 3:24
 :DivineHealth: Your words are life to me, and health to all my flesh. - Prov 4:22
 I keep my heart with all vigilance, for from it flow the springs of life. - Prov 4:23
-My ability to remember is blessed. - Prov 10:7
+:DivineHealth: My ability to remember is blessed. - Prov 10:7
 :Promise: Whoever brings blessing will be enriched, and the one who waters will himself be watered. - Prov 11:25
 :Mouth: My words contain life and death. - Prov 18:21
 :Meditation: As I think in my heart, so am I. - Prov 23:7
-For the righteous falls seven times and rises again. - Prov 24:16
+:Persistence: I, the righteous, can fall seven times and rise again. - Prov 24:16
 A soft tongue breaks a bone. - Prov 25:15
-I am bold as a lion because I know I am declared righteous. - Prov 28:1
+:Boldness: I am bold as a lion because I know I am declared righteous. - Prov 28:1
 I do not judge people by what I see or hear. - Isaiah 11:3
-I am in perfect peace when my mind is stayed on you, because I trust in you. - Isaiah 26:3
-I am restored and refreshed when I pray in the Spirit. - Isaiah 28:11
+:Rest: I am in perfect peace when my mind is stayed on you, because I trust in you. - Isaiah 26:3
+:Spirit:Rest: I am restored and refreshed when I pray in the Spirit. - Isaiah 28:11
 The word of our God stands forever. - Isaiah 40:8
-I trust in the Lord and I find new strength; I mount up with wings like eagles; I run and am not weary; I walk and do not faint. - Isaiah 40:31 
-I fear not, for God is with me; I am not dismayed, for He is my God; He strengthens me, helps me, and upholds me with his righteous right hand. - Isaiah 41:10
-When I pass through the waters, He will be with me; and through the rivers, they shall not overwhelm me; when I walk through fire I shall not be burned, and the flame shall not consume me. - Isaiah 43:2
+:Strength: I trust in the Lord and I find new strength; I mount up with wings like eagles; I run and am not weary; I walk and do not faint. - Isaiah 40:31 
+:NoFear:Strength: I fear not, for God is with me; I am not dismayed, for He is my God; He strengthens me, helps me, and upholds me with his righteous right hand. - Isaiah 41:10
+:Overcomer: When I pass through the waters, He will be with me; and through the rivers, they shall not overwhelm me; when I walk through fire I shall not be burned, and the flame shall not consume me. - Isaiah 43:2
 I do not remember or consider the old things. God is doing a new thing, and I will know it! - Isaiah 43:18
 He blots out my transgressions, for his namesake, and remembers my sins no more. - Isaiah 43:25
 For thus says the LORD: “Even the captives of the mighty shall be taken, and the prey of the tyrant be rescued, for I will contend with those who contend with you, and I will save your children. - Isaiah 49:25
@@ -110,24 +110,24 @@ I buy and eat without money and am satisfied. - Isaiah 55:1-2
 My words go out from me and bring life just like God's words. They shall not return to me empty, but shall succeed in the thing for which I sent it. - Isaiah 55:10-11
 Even though darkness covers the earth, I arise and shine shine, for mylight has come, and the glory of the LORD has risen upon me. - Isaiah 60:1-2
 God thinks peace and not evil towards me, to give me a future and a hope. - Jer 29:11
-You will seek Me and find Me when you search for me with all your heart. - Jer 29:13
+:Action: You will seek Me and find Me when you search for me with all your heart. - Jer 29:13
 :Healing: For I will restore health to you and heal you of your wounds, says YHWH. - Jer 30:17
-The creator of the universe, my Dad, loves me with an everlasting love. - Jer 31:3
+:GoodGod: The creator of the universe, my Dad, loves me with an everlasting love. - Jer 31:3
 :Children: And they shall come back from the land of the enemy. There is hope in your future, says the LORD, that your children shall come back to their own border. - Jer 31:35
 :Mouth: What you have spoken has happened [And what you speak, believing, will happen] - Jer 32:24
 There is *nothing* too hard for my God, the God of all. - Jer 32:27
 I will call and God will answer... and show me great things I do not know. - Jer 33:3
 :NoFear: You drew me near on the day I called to You and said "Do not fear" - Lamentations 3:55-57
 My God takes no pleasure in the death of the wicked. Only when they turn from their way. - Ezekiel 18:23, Ezekiel 33:11
-I will be remembered by YHWH for all that I have done for the people he gives me. - Nehemiah 5:19
+:Action: I will be remembered by YHWH God for all that I have done for the people he gives me. - Nehemiah 5:19
 The joy of the LORD is my strength. - Nehemiah 8:10
 I do not sorrow, for the joy of YHWH is my strength. - Nehemiah 8:10
 The years the locusts have eaten are being restored to me. - Joel 2:25
 God Himself dances over me with singing. - Zeph 3:17
-I hunger and thirst for righteousness, and I will be satisfied. - Matt 5:6
-I am merciful and I will receive mercy. - Matt 5:7
+#I hunger and thirst for righteousness, and I will be satisfied. - Matt 5:6
+:Action: I am merciful and I will receive mercy. - Matt 5:7
 I am a peacemaker because I am a son of God. - Matt 5:9
-I will be persecuted for Jesus and I will rejoice because great is my reward in heaven. - Matt 5:11
+:Persecution: I will be persecuted for Jesus and I will rejoice because great is my reward in heaven. - Matt 5:11
 I am the salt and light of the earth. - Matt 5:13-14
 I put my light high so it can be seen. I let it shine before men that they may see it and glorify my Father in heaven. - Matt 5:15-16
 :Mouth: I am careful with what I say. What I say matters. - Matt 5:37, Prov 4:24
@@ -136,17 +136,17 @@ I put my light high so it can be seen. I let it shine before men that they may s
 I am like the wise man who built his house upon a rock, because I both hear and do Jesus' words. - Matt 7:24-27
 :Action: As I believe and act, so it will be done for me. - Matt 8:13
 :JesusInMe:Healing: I have more than enough power inside me to heal the sick and cast out devils. - Matt 10:1
-I give freely, never expecting to get anything back. (Even if I get hurt in the process). - Matt 10:8
-I give without pay because I received without paying. - Matthew 10:8
-:Omniscient: My heavenly Dad knows everything about me, even the number of hairs on my head. - Matt 10:30
+:Generous: I give freely, never expecting to get anything back. (Even if I get hurt in the process). - Matt 10:8
+:Generous: I give without pay because I received without paying. - Matthew 10:8
+My heavenly Dad knows everything about me, even the number of hairs on my head. - Matt 10:30
 :NoFear: I do not fear; I am worth more than many sparrows. - Matt 10:31
 :Mouth: I shall give an accounting for every careless word in the day of judgement. - Matt 12:36
 :Action: Doing the will of the Father is what makes me part of God's family. - Matt 12:50
 I am like the man who sold everything he had to purchase the treasure and pearl that were worth more than anything else. - Matt 13:44-46
 :Mouth: It's what comes out of my mouth that defiles me, not what goes in. - Matt 15:11
 :Dominion: I will break down the gates of hell. - Matt 16:18
-Jesus had strong words (faithless and twisted) for his disciples who could not cast out an epileptic demon. - Matt 17:17
-If I have faith as a mustard seed, nothing is impossible for me. - Matt 17:20
+Jesus had strong words [faithless and twisted] for his disciples who could not cast out an epilepsy demon. - Matt 17:17
+:Faith: If I have faith as a mustard seed, nothing is impossible for me. - Matt 17:20
 :Dominion: What I loose on earth is loosed in heaven. - Matt 18:18
 :Dominion: What I bind on earth is bound in heaven. - Matt 18:18
 I love my neighbor as much as I love myself. - Matt 22:39
@@ -299,11 +299,11 @@ I am blessed with *every* spiritual blessing. - Eph 1:3
 :Righteous: I am made acceptable in the Beloved (Jesus). - Eph 1:6
 I have the spirit of wisdom and revelation in the knowledge of Jesus. - Eph 1:17
 I have been given resurrection power. - Eph 1:19-20
-:Position: I am God's workmanship, created in Christ Jesus for good works, which God prepared beforehand. - Eph 2:10
-I am alive together with Christ. - Eph 2:5
+:Position:Action:Chosen: I am God's workmanship, created in Christ Jesus for good works, which God prepared beforehand. - Eph 2:10
+:JesusInMe: I am alive together with Christ. - Eph 2:5
 :Position: I am saved by grace. - Eph 2:5
 :Heir:Position: I am [now] seated with Christ in the heavenly places. - Eph 2:6
-:GoodWorks: I am God's workmanship, created in Christ Jesus for good works. - Eph 2:10
+:Action: I am God's workmanship, created in Christ Jesus for good works. - Eph 2:10
 :Position: I am one with Christ. - Eph 2:15
 :Position: Because of Jesus, I have the same access to the Father that Jesus has. - Eph 2:18
 :Boldness:Righteous:Freedom: I am free and confident to approach God. - Eph 3:12
@@ -335,7 +335,7 @@ I have the peace of God that surpasses all understanding. - Phil 4:7
 :Provision:AllThings: My God will supply all my needs according to his riches in glory in Christ Jesus. - Phil 4:19
 :Position: I am the carrier of the King of Glory. - Col 1:27
 :Freedom: I am delivered from the powers of darkness. - Col 1:13
-:Position: I am complete in Him who is the head of all principality and power. - Col 2:10
+:Position:JesusInMe: I am complete in Jesus who is the head of all principality and power. - Col 2:9-10
 :NewMan: I am buried with Christ in baptism, and raised with Him through faith. - Col 1:12
 :Righteous: I am forgiven for all my sins. - Col 2:13
 I set my affections on things above, not on things on the earth. - Col 3:2

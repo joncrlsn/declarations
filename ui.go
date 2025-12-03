@@ -19,11 +19,9 @@ const htmlTemplate = `<!DOCTYPE html>
 		<div class="mb-8">
 			<h1 class="text-4xl font-bold text-center mb-2">Declarations in Christ</h1>
 			<p class="text-slate-400 text-center">Biblical declarations of who you are in Christ</p>
-			<div class="mt-4 flex items-center justify-center text-sm text-slate-400">
-				<span id="status-indicator" class="inline-block w-2 h-2 bg-slate-500 rounded-full mr-2"></span>
-				<span id="status-text">Checking API...</span>
-				<span class="mx-2">•</span>
+			<div class="mt-4 text-center text-sm text-slate-400">
 				<span id="total-count">0</span>&nbsp;declarations
+				<span id="last-loaded" class="ml-2"></span>
 			</div>
 		</div>
 
@@ -192,9 +190,8 @@ let envEnabled = false;
 
 // DOM elements
 const elements = {
-	statusIndicator: document.getElementById('status-indicator'),
-	statusText: document.getElementById('status-text'),
 	totalCount: document.getElementById('total-count'),
+	lastLoaded: document.getElementById('last-loaded'),
 	listView: document.getElementById('list-view'),
 	randomView: document.getElementById('random-view'),
 	listViewBtn: document.getElementById('list-view-btn'),
@@ -263,13 +260,30 @@ async function loadDeclarations() {
 async function checkApiHealth() {
 	try {
 		const health = await apiCall('/api/v1/health');
-		elements.statusIndicator.className = 'inline-block w-2 h-2 bg-green-500 rounded-full mr-2';
-		elements.statusText.textContent = 'API Connected';
 		elements.totalCount.textContent = health.declarations_count;
+		
+		// Display last loaded timestamp in local timezone
+		// Format: 8:44 PM MST (No date or seconds)
+		if (health.last_loaded_utc) {
+			const date = new Date(health.last_loaded_utc);
+			
+			// Format time as H:MM AM/PM (12-hour, no leading zero on hour)
+			let hours = date.getHours();
+			const ampm = hours >= 12 ? 'PM' : 'AM';
+			hours = hours % 12;
+			hours = hours ? hours : 12; // the hour '0' should be '12'
+			const minutes = String(date.getMinutes()).padStart(2, '0');
+			const timeStr = hours + ':' + minutes + ' ' + ampm;
+			
+			// Get timezone abbreviation
+			const tzName = date.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').pop();
+			
+			const formattedTime = timeStr + ' ' + tzName;
+			elements.lastLoaded.textContent = '• Last loaded: ' + formattedTime;
+		}
 	} catch (error) {
-		elements.statusIndicator.className = 'inline-block w-2 h-2 bg-red-500 rounded-full mr-2';
-		elements.statusText.textContent = 'API Error';
 		elements.totalCount.textContent = '0';
+		console.error('Failed to check API health:', error);
 	}
 }
 

@@ -28,10 +28,11 @@ type Declaration struct {
 
 // DeclarationsAPI handles all API operations
 type DeclarationsAPI struct {
-	declarations []Declaration
-	nextID       int
-	filename     string
-	mutex        sync.RWMutex
+	declarations   []Declaration
+	nextID         int
+	filename       string
+	lastLoadedTime time.Time
+	mutex          sync.RWMutex
 }
 
 // Bible book order for sorting
@@ -132,6 +133,7 @@ func (api *DeclarationsAPI) loadDeclarations() error {
 		return fmt.Errorf("error reading file: %w", err)
 	}
 
+	api.lastLoadedTime = time.Now().UTC()
 	return nil
 }
 
@@ -390,11 +392,18 @@ func (api *DeclarationsAPI) GetHealth(w http.ResponseWriter, r *http.Request) {
 	api.mutex.RLock()
 	defer api.mutex.RUnlock()
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{
+	response := map[string]interface{}{
 		"status":             "healthy",
 		"declarations_count": len(api.declarations),
-	})
+	}
+
+	// Include last loaded time if available
+	if !api.lastLoadedTime.IsZero() {
+		response["last_loaded_utc"] = api.lastLoadedTime.Format(time.RFC3339)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }
 
 // GetEnv handles GET /api/v1/env
@@ -415,9 +424,9 @@ func GetEnv(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// getESVToken retrieves the ESV API token from environment or file
+// getESVToken retrieves the ESV API token from environment, Secret Manager, or file
 func getESVToken() (string, error) {
-	// Check environment variable first (Populated for Google Cloud Run)
+	// Check environment variable first (can be populated from Secret Manager in Cloud Run)
 	if token := os.Getenv("ESV_API_TOKEN"); token != "" {
 		return strings.TrimSpace(token), nil
 	}
@@ -425,7 +434,7 @@ func getESVToken() (string, error) {
 	// Fall back to local file
 	tokenData, err := os.ReadFile(".esv-api-token")
 	if err != nil {
-		return "", fmt.Errorf("failed to read API token: %w", err)
+		return "", fmt.Errorf("failed to read API token from .esv-api-token file: %w", err)
 	}
 	return strings.TrimSpace(string(tokenData)), nil
 }

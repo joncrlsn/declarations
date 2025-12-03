@@ -14,7 +14,7 @@ The Declarations API is a read-only JSON REST API that provides the following en
 - GET /api/v1/declarations/random - returns a random declaration 
 - GET /api/v1/declarations/{id} - returns the declaration with the given id, if it exists.  Otherwise, HTTP 404 is returned.
 - GET /api/v1/declarations/label/{label} - provides list of declarations that have the given label
-- GET /api/v1/labels - provides a list of labels that are used by declarations.  Included in the output is the count of declarations that have each label.
+- GET /api/v1/labels - provides a list of labels that are used by declarations.  Included in the output is the count of declarations for each label.
 - GET /api/v1/bible-esv/{reference} - provides the Bible text for the given reference from the ESV Bible API.  If the Bible text is returned in the response body.
 - GET /api/v1/health - this API response includes the number of declarations currently stored
 
@@ -24,23 +24,7 @@ The web client provides a user interface for interacting with the API. It provid
 
 - The UI is a single HTML page that is served from the same Golang process as the API.
   - GET / - provides the default page
-- Views:
-  - A view showing a random declaration from the API.  This is the default page.  When this page is first loaded, a random declaration is pre-loaded so the user does not have to click a button to view a random declaration.  As new declarations are requested with a "Get Random Declaration" button click, they are added above the previous declaration.  Random declarations must include labels with links like the declarations list page.
-  - A view showing a list of declarations in a compact table format.  The declaration id is not shown to the user.  When a label is clicked or selected on a displayed verse, the declarations list table is updated to show only declarations that have that label.  If the label is clicked again, the declarations list table is updated to show all declarations.
-  - A view showing a list of labels with a declaration count next to each label.  When you click on a label, it shows the declarations that have that label below the list of labels.  Like the declarations list page, the declarations must include labels with links, the reference must be at the end of the declaration, and Bible references are clickable.
-  - A view showing all of the environment variables and their values in a simple table with two columns: Variable Name and Value.  This is only available when the web URL contains this query parameter: `?env=true`
-- When the browser is a mobile device:
-  - The UI is optimized for touch interaction.
-  - The buttons for navigating to the different views are compact enough to fit 3 buttons across without wrapping.
-- Only dark mode is supported.  In dark mode, the background is dark and the font color is light. When a row in the declarations list table is highlighted, the previously light text changes to dark.
-- Pages must look good on either a desktop or a mobile device.
-- Whenever a bible reference is clicked or selected anywhere in the app, the ESV Bible API is called to get the Bible text for that reference and it is displayed in a modal dialog.  To protect the Bible API token, the Bible API call is done in the declarations API and the Bible text is returned to the browser.
-
-## Storage
-
-Each declaration is a text-based description of who the Bible says a believer is or what they have been given in Christ.  Each declaration is a line in a flat file, and each declaration can be edited or deleted.  The declarations should be sorted by a reference that occurs at the end of each line.  Books of the Bible are sorted in the order of their appearance in the Bible.  Name references must be sorted to the end of the file. 
-
-The declarations file has very little formatting.  It is formatted as follows:
+  - The common header for each view should have a status line that shows the number of declarations currently stored and the timestamp (in the local timezone) of when the declarations were last loaded from the bucket. The timestamp should include the timezone and be formatted like this: `8:44 PM MST` (No date or seconds)
 
 - **Line:** Each line is a declaration.
 - **Comment:** If the line starts with a hash, then the rest of the line is a comment and is not processed except when sorting.
@@ -55,9 +39,7 @@ The declarations file has very little formatting.  It is formatted as follows:
     - `Gal 4:7,8` - single reference with multiple verses
     - `1 John 5:14-15` - single reference with multiple verses
     - `Gal 4:7,8; 1 John 5:14-15` - multiple references separated by semicolon
-    - `Psalms 18:23 & 33:11` - multiple references separated by ampersand
     - `1 Peter 2:9, Eph 2:6` - multiple references separated by comma
-    - `2 Cor 5:7 and Heb 11:1` - multiple references separated by "and"
   - Person reference examples:
     - `Smith Wigglesworth` - name of a person
     - `Joe J. Smith` - name of a person
@@ -78,7 +60,7 @@ The curent list of declarations is in the file declarations.txt in the root dire
 - The Bible API is at <https://api.esv.org>
 - The token header is like this: `Authorization: Token {token}`
 - The URL for finding the text of a bible reference is: <https://api.esv.org/v3/passage/text/?q={verseReference}>.  This returns the Bible text for the given verse reference.
-- When running locally, the API token is in the file .api-token in the root directory of the project.  It must be left in that file and never added to the Golang code.  
+- When running locally, the API token is in the file .esv-api-token in the root directory of the project.  It must be left in that file and never added to the Golang code.  If it does not exist, the application will write a message to standard error and not start.
 - When running in Google Cloud Run, the API token is in a secret in Google Secret Manager.  The secret is called `esv-api-token`
 
 ## The source code
