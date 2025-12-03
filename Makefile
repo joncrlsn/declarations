@@ -20,6 +20,7 @@ docker-run:
 deploy:
 	@gcloud run deploy declarations \
 	  --image=$(GAR_IMAGE) \
+	  --service-account=declarations@declarations-34xd.iam.gserviceaccount.com \
 	  --region=$(REGION) \
 	  --platform=managed \
 	  --allow-unauthenticated \
