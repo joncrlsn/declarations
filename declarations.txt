@@ -10,7 +10,7 @@
 :Provision: I shall not borrow. - Deut 28:12
 :Dominion: I am the head and not the tail, above the circumstances and not beneath them. - Deut 28:13
 :NoFear: I am strong and courageous. I do not allow myself to fear or dread anything, for it is God who goes with me. He will neither leave me nor forsake me. - Deut 31:6
-:Warfare:Rest: The enternal God is my refuge. He drives out the enemy before me and cries out "Destroy them!". - Deut 33:27
+:Warfare:Rest: The eternal God is my refuge. He drives out the enemy before me and cries out "Destroy them!". - Deut 33:27
 :Warfare:Dominion: Every place my foot treads is mine and I will take it back for Christ. - Joshua 1:3, Deut 11:24
 :Warfare: Because my God is with me, I am strong and courageous. I am never frightened or dismayed. - Josh 1:9
 :Warfare: I am strong and courageous. I am never frightened or dismayed, for the LORD my God is with me wherever I go. - Josh 1:9
@@ -63,7 +63,9 @@ Whom have I in heaven but you? And earth has nothing I desire besides you. - Psa
 :Mouth: I believe, therefore I speak. - Psalm 116:10
 :ThisLife: I shall not die, but live, and declare the works of the LORD. - Psalm 118:17
 :Thankful: This is the day the Lord has made! I will rejoice and be glad in it! - Psalm 118:24
+:Word: Forever, O LORD, your word is settled as a boundary in heavean. - Psalm 119:89
 :Rest: For he gives his beloved sleep. - Psalm 127:2
+:Word: You, O God, have magnified your word even above your name. - Psalm 138:2
 :Omnipresent: Where can I go from your Spirit? Where can I flee from your presence? If I go up to the heavens, you are there; if I make my bed in the depths, you are there. - Psalm 139:7-8
 :Omnipresent: If I rise on the wings of the dawn, if I settle on the far side of the sea, even there your hand will guide me, your right hand will hold me fast. - Psalm 139:9–10
 My days are appointed. - Psalm 139:16
@@ -114,7 +116,7 @@ God thinks peace and not evil towards me, to give me a future and a hope. - Jer 
 :Healing: For I will restore health to you and heal you of your wounds, says YHWH. - Jer 30:17
 :GoodGod: The creator of the universe, my Dad, loves me with an everlasting love. - Jer 31:3
 :Children: And they shall come back from the land of the enemy. There is hope in your future, says the LORD, that your children shall come back to their own border. - Jer 31:35
-:Mouth: What you have spoken has happened [And what you speak, believing, will happen] - Jer 32:24
+:Mouth: What you have spoken has happened [And what you speak, believing, will happen] - Jer 32:24, Mark 11:24
 There is *nothing* too hard for my God, the God of all. - Jer 32:27
 I will call and God will answer... and show me great things I do not know. - Jer 33:3
 :NoFear: You drew me near on the day I called to You and said "Do not fear" - Lamentations 3:55-57
@@ -152,12 +154,12 @@ Jesus had strong words [faithless and twisted] for his disciples who could not c
 I love my neighbor as much as I love myself. - Matt 22:39
 I am careful with what I listen to. - Mark 4:24
 I hold fast to the word of God over the traditions of men. - Mark 7:7
-:Faith: Whatever I say, believing, happens. - Mark 11:23
+:Faith:Mouth: Whatever I say, believing, happens. - Mark 11:23
 :Faith: My faith can move mountains. - Mark 11:23
-:Faith: Whatever I ask in prayer with belief that I'm receiving it, it will be mine. - Mark 11:24
+:Faith: Whatever I say with belief that I'm receiving it, it will be mine. - Mark 11:24
 :Forgiveness: If I do not forgive, neither will my Father in heaven forgive me. - Mark 11:26
 :Dominion:Healing: Jesus expects me to heal the sick and cast out demons. - Mark 16:17-18
-:Dominion: Signs will follow me, not the other way around. - Mark 16:17-18
+:Dominion: Signs follow me, not the other way around. - Mark 16:17-18
 :DivineHealth: My life and health is protected. - Mark 16:18
 I increase in wisdom and in favor with both God and men. - Luke 2:52
 :Persecution: I bless those who curse me, and I pray for those who abuse me. - Luke 6:28
@@ -219,7 +221,7 @@ I know that God is working for my good. - Rom 8:28
 All things work together for my good because I love God and am called according to his purpose. - Rom 8:28
 :Boldness:Confidence: If God is for me, who can be against me? - Rom 8:31
 :Warfare: I am an *overwhelming* conqueror through Jesus. - Rom 8:37
-:Position: Nothing can separate me from the love of God. - Rom 8:38
+:Position: Nothing can separate me from the love of God. - Rom 8:38-39
 I, who believe in Jesus, will not be disappointed. - Rom 9:33
 Christ is the end of the law (for righteousness) because I believe. - Rom 10:4
 For the Scripture says, "Everyone who believes in Jesus will not be put to shame". - Rom 10:11

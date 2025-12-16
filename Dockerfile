@@ -16,8 +16,6 @@ WORKDIR /app
 RUN apk --no-cache add ca-certificates
 # Copy binary from builder
 COPY --from=builder /app/server /app/server
-#COPY declarations.txt /app/declarations
-#COPY .api-token /app/.api-token
 
 EXPOSE 8080
 # Run the server
