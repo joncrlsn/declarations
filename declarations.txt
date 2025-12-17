@@ -197,7 +197,7 @@ We must work the works of him who sent Jesus while it is day. Night is coming wh
 :Spirit: The Spirit will tell me of things to come. - John 16:13
 :JesusInMe: Jesus shares God's glory with us, so that we may be one even as Jesus and his Father are one. - John 17:22-23
 :Position: The Father loves me as much as He loves Jesus. - John 17:23
-:Healing: Jesus healed all who were oppressed by the devil. (sickness=oppression). - Acts 10:38
+:Healing: Jesus healed all who were oppressed by the devil. [sickness=oppression]. - Acts 10:38
 :Unashamed: I am not ashamed of the gospel, for it is the power of God... - Rom 1:16
 God is no respector of persons. He shows no partiality and judges all people in the same way. - Rom 2:11
 For all have sinned and fall short of the glory of God. - Rom 3:23
@@ -218,7 +218,7 @@ I am a son, not a slave. Because I am a son, God sent the Spirit of his Son into
 :Heir: I am an heir of God and a joint heir with Christ (if indeed I suffer with him). - Rom 8:17
 :Persistence: When I wait for what I do not see, I wait for it eagerly, with perseverance. - Rom 8:25
 I know that God is working for my good. - Rom 8:28
-All things work together for my good because I love God and am called according to his purpose. - Rom 8:28
+:AllThings: All things work together for my good because I love God and am called according to his purpose. - Rom 8:28
 :Boldness:Confidence: If God is for me, who can be against me? - Rom 8:31
 :Warfare: I am an *overwhelming* conqueror through Jesus. - Rom 8:37
 :Position: Nothing can separate me from the love of God. - Rom 8:38-39
@@ -226,7 +226,7 @@ I, who believe in Jesus, will not be disappointed. - Rom 9:33
 Christ is the end of the law (for righteousness) because I believe. - Rom 10:4
 For the Scripture says, "Everyone who believes in Jesus will not be put to shame". - Rom 10:11
 I call upon the name of the Lord so I will be saved/made whole. - Rom 10:13
-:Healing: My body must be a living sacrifice, holy and acceptable to God. - Rom 12:1; Eph 5:2
+:Healing:MyBody: My body must be a living sacrifice, holy and acceptable to God. - Rom 12:1; Eph 5:2
 I hate what is evil and cling to what is good. - Rom 12:9
 :NoFear: I am not overcome by evil, but I overcome evil with good. - Rom 12:21
 :Persecution: The reproaches of those who reproach me fall on Jesus. - Rom 15:3
@@ -235,7 +235,7 @@ I welcome and receive others just as Jesus welcomed and received me. - Rom 15:7
 The God of peace will crush Satan under my feet. - Rom 16:20
 I am sanctified in Christ and called to be a saint. - 1 Cor 1:2
 I too can speak for God where the Bible makes his will clear. - 1 Cor 1:3
-In everything I was made rich in Him, in all speech and all knowledge. - 1 Cor 1:5
+:AllThings: In everything I was made rich in Him, in all speech and all knowledge. - 1 Cor 1:5
 :Confidence: The one who began a good work in me will finish it! - 1 Cor 1:6
 I will know nothing except Jesus Christ and him crucified. - 1 Cor 2:2
 :Dominion: I witness not with persuasive words of human wisdom, but in demonstration of the Spirit and of power. That people's faith should not be in wisdom of men, but in the power of God. - 1 Cor 2:4
@@ -243,7 +243,7 @@ I will know nothing except Jesus Christ and him crucified. - 1 Cor 2:2
 :Spirit: The Spirit reveals to me the hidden things of God. - 1 Cor 2:10
 I have the mind of Christ. - 1 Cor 2:16
 :Position: I am God's temple. His Spirit dwells in me! - 1 Cor 3:16
-:Confidence: All things (the world, life, death, things now and things to come) are mine, I am Christ's and Christ is God's. - 1 Cor 3:21-23
+:Confidence:AllThings: All things (the world, life, death, things now and things to come) are mine, I am Christ's and Christ is God's. - 1 Cor 3:21-23
 I am determined to be found a faithful steward. - 1 Cor 4:2
 :Boldness: I have a clear conscience so only God judges me. - 1 Cor 4:4
 :Persecution: When reviled, I bless; when persecuted, I endure. - 1 Cor 4:12
@@ -251,7 +251,7 @@ I am determined to be found a faithful steward. - 1 Cor 4:2
 :Dominion: I will not be brought under the power of any. - 1 Cor 6:12
 I am one spirit with the Lord. - 1 Cor 6:17
 :Position: I am not my own, for I was bought with a price. - 1 Cor 6:19-20
-I am a temple of the Holy Spirit. - 1 Cor 6:19
+:MyBody: My body is a temple of the Holy Spirit, so my body will bring glory to God. - 1 Cor 6:19-20
 :Action: The time is very short and I will live that way. - 1 Cor 7:29
 I can buy things, but I do not possess anything. - 1 Cor 7:30
 :Dominion: I have authority over my own will. - 1 Cor 7:37
@@ -268,6 +268,7 @@ I pursue love and desire spiritual gifts, especially prophesy. - 1 Cor 14:1
 :Spirit: I *will* pray in the spirit and I *will* pray with understanding. - 1 Cor 14:15
 :Dominion:Confidence: God always causes me to triumph in Christ. - 2 Cor 2:14
 :Mouth: I believe, therefore I speak. - 2 Cor 4:13; Ps 116:10
+:MyBody: The life of Jesus is to be manifested [revealed] through my mortal flesh. - 2 Cor 4:10-11
 I fix my eyes on what is unseen. What is seen is temporary, unseen is eternal. - 2 Cor 4:18
 Life swallows up what is mortal. - 2 Cor 5:4
 :Faith: I walk in faith, not by sight. - 2 Cor 5:7 and Heb 11:1
