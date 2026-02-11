@@ -157,7 +157,7 @@ I hold fast to the word of God over the traditions of men. - Mark 7:7
 :Faith:Mouth: Whatever I say, believing, happens. - Mark 11:23
 :Faith: My faith can move mountains. - Mark 11:23
 :Faith: Whatever I say with belief that I'm receiving it, it will be mine. - Mark 11:24
-:Forgiveness: If I do not forgive, neither will my Father in heaven forgive me. - Mark 11:26
+:Forgiven: If I do not forgive, neither will my Father in heaven forgive me. - Mark 11:26
 :Dominion:Healing: Jesus expects me to heal the sick and cast out demons. - Mark 16:17-18
 :Dominion: Signs follow me, not the other way around. - Mark 16:17-18
 :DivineHealth: My life and health is protected. - Mark 16:18
@@ -307,8 +307,6 @@ I have been given resurrection power. - Eph 1:19-20
 :Position: I am saved by grace. - Eph 2:5
 :Heir:Position: I am [now] seated with Christ in the heavenly places. - Eph 2:6
 :Action: I am God's workmanship, created in Christ Jesus for good works. - Eph 2:10
-:Position: I am one with Christ. - Eph 2:15
-:Position: Because of Jesus, I have the same access to the Father that Jesus has. - Eph 2:18
 :Boldness:Righteous:Freedom: I am free and confident to approach God. - Eph 3:12
 Lord, grant me to be strengthened with power through your Spirit in my inner being...that I may be filled with all the fullness of God and know the love of Christ which passes knowledge. - Eph 3:16
 :Love: I am filled with all the fullness of God when I know the love of Christ that surpasses knowledge. - Eph 3:19
@@ -336,14 +334,15 @@ I have the peace of God that surpasses all understanding. - Phil 4:7
 :MindRenewal: I think on whatever is true, honest, just, pure, lovely, and commendable. - Phil 4:8
 :AllThings: I can do everything I need to do through Christ who strengthens me. - Phil 4:13
 :Provision:AllThings: My God will supply all my needs according to his riches in glory in Christ Jesus. - Phil 4:19
+:Position: I am holy and blameless. - Col 1:22
 :Position: I am the carrier of the King of Glory. - Col 1:27
 :Freedom: I am delivered from the powers of darkness. - Col 1:13
 :Position:JesusInMe: I am complete in Jesus who is the head of all principality and power. - Col 2:9-10
 :NewMan: I am buried with Christ in baptism, and raised with Him through faith. - Col 1:12
-:Righteous: I am forgiven for all my sins. - Col 2:13
+:Righteous:Forgiven: Because of Jesus, I am forgiven of all my sins. - Eph 1:7, Psalms 103:12
 I set my affections on things above, not on things on the earth. - Col 3:2
 :NewMan:Protection: I died and my life is hidden with Christ in God. - Col 3:3
-:Forgiveness: I forgive others because Christ forgives me. - Col 3:13
+:Forgiven: I forgive others because Christ forgives me. - Col 3:13
 :Thankful: In everything I give thanks, which is the will of God in Christ Jesus for me. - 1 Thess 5:18
 :Boldness: I have great boldness of faith in Christ Jesus. - 1 Tim 3:13
 I have the promise of life which is in Christ Jesus. - 2 Tim 1:1
@@ -407,3 +406,5 @@ If I ask anything according to his will, he hears me. - 1 John 5:14
 I never say "I can't" because I have THE I CAN living inside of me. - Smith Wigglesworth
 :Faith: Faith doesn't stop until it gets what it goes for. - Curry Blake
 :Dominion: I am God's son, man's servant, and the devil's master. - 1 Cor 9:19; 2 Cor 4:5; Curry Blake
+:Position: Because of Jesus, I have the same access to the Father that Jesus has. 
+:Position: I am one with Jesus.
